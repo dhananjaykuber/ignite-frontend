@@ -206,7 +206,7 @@ const data = [
             roundNo: 1,
             roundName: 'Escape Room',
             roundDesc: [
-              'From the pool of 30 qualified teams, 5 teams will be formed randomly, with 4 players in each team.',
+              '30 teams will appear for the first round, where each team have 1 to 4 members.',
               'Each team will be given a chit with a clue on it, which will act as a lead to solving the puzzle.',
               'Volunteers will be placed in each room to provide guidance if necessary and ensure that the rules are followed.',
               'The team to find all 5 clues and solve the puzzle will be declared the winner of the Treasure Hunt event.',
