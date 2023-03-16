@@ -48,6 +48,8 @@ const Quiz = () => {
       navigate('/');
     }
 
+    console.log('quiz: ', localStorage.getItem('quiz'));
+
     // update time after every 10 sec
     const increaseTime = async () => {
       console.log('hello');
@@ -102,7 +104,12 @@ const Quiz = () => {
 
         console.log('totaltime: ', response.data.time);
         totalTime = response.data.time;
-        setStateTotalTime(response.data.time);
+
+        //
+        //
+        //
+        //
+        setStateTotalTime(response.data.time - time);
       } catch (error) {
         console.log(error);
       }
@@ -155,6 +162,14 @@ const Quiz = () => {
           setInterval(() => {
             setTime((prev) => prev + 1);
             currentTime += 1;
+
+            //
+            //
+            //
+            setStateTotalTime((prev) => prev - 1);
+            //
+            //
+            //
 
             if (currentTime >= totalTime) {
               handleOnSubmit(true);
@@ -219,6 +234,18 @@ const Quiz = () => {
           }
         );
 
+        if (localStorage.getItem('category')) {
+          if (localStorage.getItem('category') !== response.data[0].category) {
+            navigate('/');
+            window.location.reload();
+            localStorage.clear();
+
+            return;
+          }
+        } else {
+          localStorage.setItem('category', data.category);
+        }
+
         // set questions
         localStorage.setItem('quiz', JSON.stringify(response.data));
         dispatch(setQuiz(response.data));
@@ -262,7 +289,7 @@ const Quiz = () => {
           email: data.email,
           contact: data.contact,
           answers: answers,
-          time: JSON.parse(localStorage.getItem('time')),
+          time: Math.abs(totalTime - time),
         },
         {
           headers: {
@@ -292,14 +319,14 @@ const Quiz = () => {
 
       <h6>
         <FaClock />
-        {/* {convert(stateTotalTime - time).minutes.toString().length === 1 && 0}
-        {convert(stateTotalTime - time).minutes}:
-        {convert(stateTotalTime - time).seconds.toString().length === 1 && 0}
-        {convert(stateTotalTime - time).seconds} */}
-        {convert(time).minutes.toString().length === 1 && 0}
+        {convert(stateTotalTime).minutes.toString().length === 1 && 0}
+        {convert(stateTotalTime).minutes}:
+        {convert(stateTotalTime).seconds.toString().length === 1 && 0}
+        {convert(stateTotalTime).seconds}
+        {/* {convert(time).minutes.toString().length === 1 && 0}
         {convert(time).minutes}:
         {convert(time).seconds.toString().length === 1 && 0}
-        {convert(time).seconds}
+        {convert(time).seconds} */}
       </h6>
 
       {quiz && <Question quiz={quiz[index]} index={index} />}
