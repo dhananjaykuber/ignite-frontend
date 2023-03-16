@@ -40,7 +40,7 @@ const ListQuestions = () => {
         `${process.env.REACT_APP_NODE_BACKEND}/apinode/quiz/delete-quiz/${state}?id=${_id}`,
         {
           headers: {
-            Authorization: `Bearer ${JSON.parse(data).token}`,
+            Authorization: `Bearer ${data}`,
           },
         }
       );

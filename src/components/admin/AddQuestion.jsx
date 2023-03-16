@@ -54,7 +54,7 @@ const AddQuestion = () => {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${JSON.parse(data).token}`,
+            Authorization: `Bearer ${data}`,
           },
         }
       );

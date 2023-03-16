@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AiOutlineInstagram, AiOutlineYoutube } from 'react-icons/ai';
-import { FaLinkedinIn } from 'react-icons/fa';
+import { AiOutlineInstagram } from 'react-icons/ai';
 import styles from '../styles/components/Layout.module.css';
 
 const Footer = () => {
@@ -38,22 +37,6 @@ const Footer = () => {
               target="_blank"
             >
               <AiOutlineInstagram className={styles.socialIcon} />
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={'https://www.instagram.com/mpulseignite/'}
-              target="_blank"
-            >
-              <FaLinkedinIn className={styles.socialIcon} />
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={'https://www.instagram.com/mpulseignite/'}
-              target="_blank"
-            >
-              <AiOutlineYoutube className={styles.socialIcon} />
             </Link>
           </li>
         </ul>

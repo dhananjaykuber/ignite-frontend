@@ -22,7 +22,7 @@ const SeeCategories = () => {
           `${process.env.REACT_APP_NODE_BACKEND}/apinode/category/get-all-categories`,
           {
             headers: {
-              Authorization: `Bearer ${JSON.parse(data).token}`,
+              Authorization: `Bearer ${data}`,
             },
           }
         );
@@ -39,12 +39,7 @@ const SeeCategories = () => {
   const handleLive = async (name) => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_NODE_BACKEND}/apinode/category/set-live/${name}`,
-        {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(data).token}`,
-          },
-        }
+        `${process.env.REACT_APP_NODE_BACKEND}/apinode/category/set-live/${name}`
       );
       dispatch(setSuccess(`${name} quiz status updated`));
     } catch (error) {

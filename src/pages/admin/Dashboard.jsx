@@ -23,13 +23,7 @@ const Dashboard = () => {
   const { data } = useSelector((store) => store.admin);
 
   useEffect(() => {
-    console.log(localStorage.getItem('admin'));
-    dispatch(setAdmin(localStorage.getItem('admin')));
-
-    if (
-      localStorage.getItem('admin') &&
-      JSON.parse(localStorage.getItem('admin')).token.length === 0
-    ) {
+    if (data === null) {
       navigate('/admin');
     }
   }, []);

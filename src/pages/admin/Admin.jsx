@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setAdmin } from '../../redux/adminSlice';
 import { setError } from '../../redux/toastSlice';
@@ -9,38 +9,35 @@ import styles from '../../styles/pages/Register.module.css';
 const Admin = () => {
   const dispatch = useDispatch();
 
+  const { data } = useSelector((store) => store.admin);
+
   const navigate = useNavigate();
 
-  const [data, setData] = useState({
+  const [adminData, setData] = useState({
     username: '',
     password: '',
   });
 
   useEffect(() => {
-    dispatch(setAdmin(localStorage.getItem('admin')));
-
-    if (
-      localStorage.getItem('admin') &&
-      JSON.parse(localStorage.getItem('admin')).token.length > 0
-    ) {
+    if (data) {
       navigate('/admin/dashboard');
     }
-  }, []);
+  }, [data]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_NODE_BACKEND}/apinode/admin/login`,
-        data,
+        adminData,
         {
           headers: {
             'Content-Type': 'application/json',
           },
         }
       );
-      dispatch(setAdmin(response.data));
-      localStorage.setItem('admin', JSON.stringify(response.data));
+      localStorage.setItem('admin', response.data.token);
+      dispatch(setAdmin(response.data.token));
       navigate('/admin/dashboard');
     } catch (error) {
       dispatch(setError('Invalid username and password'));
@@ -59,8 +56,10 @@ const Admin = () => {
               id="username"
               className={styles.formcontrol}
               required
-              value={data.username}
-              onChange={(e) => setData({ ...data, username: e.target.value })}
+              value={adminData.username}
+              onChange={(e) =>
+                setData({ ...adminData, username: e.target.value })
+              }
             />
             <label htmlFor="username" className={styles.floatinglabel}>
               Username <span>*</span>
@@ -74,8 +73,10 @@ const Admin = () => {
               id="password"
               className={styles.formcontrol}
               required
-              value={data.password}
-              onChange={(e) => setData({ ...data, password: e.target.value })}
+              value={adminData.password}
+              onChange={(e) =>
+                setData({ ...adminData, password: e.target.value })
+              }
             />
             <label htmlFor="password" className={styles.floatinglabel}>
               Password<span>*</span>

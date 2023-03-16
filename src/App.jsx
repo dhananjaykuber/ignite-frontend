@@ -26,9 +26,14 @@ import Attempted from './pages/Attempted';
 import ClearStorage from './pages/ClearStorage';
 import Appear from './pages/Appear';
 import CodeEditor from './pages/CodeEditor';
+import { useDispatch } from 'react-redux';
+import { getAdminInformation } from './redux/adminSlice';
 
 const App = () => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
+    dispatch(getAdminInformation());
     AOS.init();
   }, []);
 

@@ -11,7 +11,7 @@ const CalculateScore = () => {
 
   const { data } = useSelector((store) => store.admin);
 
-  const [state, setState] = useState('aptitude');
+  const [state, setState] = useState('bugbounty');
 
   const onEventChange = (e) => {
     setState(e.target.value);
@@ -29,7 +29,7 @@ const CalculateScore = () => {
         }
       );
 
-      dispatch(setSuccess('Score calculated'));
+      dispatch(setSuccess(`Score calculated for ${state}`));
       console.log(response.data);
     } catch (error) {
       dispatch(setError('Error occured'));

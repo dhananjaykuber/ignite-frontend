@@ -28,7 +28,7 @@ const TestEntries = () => {
         `${process.env.REACT_APP_NODE_BACKEND}/apinode/quiz/get-entries/${state}`,
         {
           headers: {
-            Authorization: `Bearer ${JSON.parse(data).token}`,
+            Authorization: `Bearer ${data}`,
           },
         }
       );
@@ -45,7 +45,7 @@ const TestEntries = () => {
         `${process.env.REACT_APP_NODE_BACKEND}/apinode/admin//reset-test/${_id}`,
         {
           headers: {
-            Authorization: `Bearer ${JSON.parse(data).token}`,
+            Authorization: `Bearer ${data}`,
           },
         }
       );

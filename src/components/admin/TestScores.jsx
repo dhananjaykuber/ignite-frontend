@@ -26,7 +26,7 @@ const TestScores = () => {
         `${process.env.REACT_APP_NODE_BACKEND}/apinode/category/calculate-result/${state}`,
         {
           headers: {
-            Authorization: `Bearer ${JSON.parse(data).token}`,
+            Authorization: `Bearer ${data}`,
           },
         }
       );

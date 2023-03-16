@@ -68,6 +68,8 @@ const QuizSignup = () => {
         `${process.env.REACT_APP_FLASK_BACKEND}/api/auth/authenticate/${registrationid}`
       );
 
+      console.log(response.data.message);
+
       if (
         !response.data.message.qr_information.event_name.includes(
           searchParams.get('name')
