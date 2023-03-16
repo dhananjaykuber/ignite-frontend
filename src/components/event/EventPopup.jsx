@@ -50,7 +50,7 @@ const EventPopup = ({ setOpen }) => {
               <button
                 onClick={() => {
                   setOpen(false);
-                  navigate('/register');
+                  navigate(`/register?name=${data.title}`);
                 }}
               >
                 Click here to register

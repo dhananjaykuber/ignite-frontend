@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ParticleBackground } from '../components/ParticleBackground';
 import styles from '../styles/pages/Home.module.css';
 
@@ -23,6 +23,11 @@ const Home = () => {
         <button onClick={() => navigate('/register')}>Register Here</button>
         <button className={styles.filled} onClick={() => navigate('/events')}>
           View Events
+        </button>
+        <button className={styles.vr}>
+          <Link to="https://ignite-vr.glitch.me" target="_blank">
+            Experience Ignite In VR
+          </Link>
         </button>
       </div>
       <ParticleBackground></ParticleBackground>

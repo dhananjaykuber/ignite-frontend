@@ -170,6 +170,7 @@ const TreasurerDashboard = () => {
           <th>Full name</th>
           <th>Email</th>
           <th>Contact Number</th>
+          <th>College Name</th>
           <th>Event Name</th>
           <th>Payment ID</th>
           <th>Screenshot</th>
@@ -182,6 +183,7 @@ const TreasurerDashboard = () => {
             <td>{`${treasurer.first_name} ${treasurer.last_name}`}</td>
             <td>{treasurer.email}</td>
             <td>{treasurer.contact}</td>
+            <td>{treasurer.college_name}</td>
             <td>{treasurer.event_name}</td>
             <td>{treasurer.payment_id}</td>
             <td>

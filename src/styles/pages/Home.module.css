@@ -69,9 +69,28 @@
   color: #fdfdfd;
 }
 
+.home .vr {
+  width: 230px !important;
+  padding: 5px 10px;
+  font-size: 15px;
+  position: fixed;
+  left: 50px;
+  bottom: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.vr a {
+  color: #fdfdfd;
+  text-decoration: none;
+}
+
 @media only screen and (max-width: 860px) {
   .home {
     padding-top: 40px;
+  }
+  .home .vr {
+    position: unset;
   }
 }
 

@@ -37,7 +37,26 @@
   padding: 0px;
 }
 
-.leftHeader button {
+.leftHeader .buttons {
+}
+
+.leftHeader .buttons button {
+  background: #217eff;
+  border: none;
+  padding: 8px 5px;
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.leftHeader .navButton {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* .leftHeader button {
   border: none;
   border-radius: 0px;
   outline: none;
@@ -52,26 +71,13 @@
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   font-size: 15px;
-}
-
-.leftHeader .active {
-  background: #1c1b1b;
-}
+} */
 
 .left h2 {
   color: #fdfdfd;
   font-weight: 500;
   font-size: 1.3rem;
   margin-bottom: 10px;
-}
-
-.left span {
-  background: #00ff004d;
-  padding: 4px 10px;
-  border-radius: 50px;
-  color: #38ff00;
-  font-size: 12px;
-  margin-bottom: 30px !important;
 }
 
 .left p {
@@ -108,7 +114,7 @@
 
 .run .submit {
   background: #008000 !important;
-  margin-left: 10px;
+  margin-left: 100px;
   width: fit-content !important;
 }
 
@@ -154,46 +160,49 @@
   color: #fdfdfd;
 }
 
-.editorPage .submission {
-  display: flex;
-  align-items: center;
+.left .buttons {
+  margin-bottom: 10px;
 }
 
-.correctSubmission,
-.wrongSubmission {
-  background: #00610068;
-  padding: 10px 30px;
-  border-radius: 20px;
-  margin: 15px 0px;
+.left .buttons button {
+  border: none;
+  background: #494949;
+  border-radius: 5px;
+  outline: none;
+  padding: 10px 5px;
+  font-size: 16px;
+  color: #fdfdfd;
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
 }
 
-.wrongSubmission {
-  background: #ff171769;
+.left .buttons .navButton {
+  padding: 10px 15px;
+  background: #008000 !important;
 }
 
-.submission .error {
-  color: #ff6666;
-  font-weight: 500;
+.editorPage .rightContainer {
+  position: relative;
 }
 
-.submission .success {
-  color: #00bb00;
-  font-weight: 500;
+.output {
+  position: absolute;
+  background: #2b2b2b;
+  height: 200px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 59%;
+  margin-left: 41%;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
-.submission span {
-  margin-left: 80px;
-  margin-bottom: 0px !important;
-}
-
-.wrongSubmission span {
-  background: #ff30004d;
-  color: #ffc3c3;
-}
-
-.submission p {
-  color: #6d6d6d;
-  font-weight: 500;
-  font-size: 14px;
-  margin: 0px !important;
+.output .close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #fdfdfd;
+  cursor: pointer;
+  font-size: 18px;
 }

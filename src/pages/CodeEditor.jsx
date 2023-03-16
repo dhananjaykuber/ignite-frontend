@@ -2,17 +2,14 @@ import React, { useState } from 'react';
 import MonacoEditor from '@uiw/react-monacoeditor';
 import styles from '../styles/pages/Editor.module.css';
 import Question from '../components/editor/Question';
-import Submissions from '../components/editor/Submissions';
-import Output from '../components/editor/Output';
+import { FaAngleLeft, FaAngleRight, FaWindowClose } from 'react-icons/fa';
 
-const langs = ['cpp', 'c', 'java', 'python'];
+const langs = ['cpp', 'c', 'python'];
 
 const CodeEditor = () => {
-  const [code, setCode] = useState(`// Write your code here`);
+  const [code, setCode] = useState(``);
 
   const [language, setLanguage] = useState('cpp');
-
-  const [tab, setTab] = useState('description');
 
   const onLanguageChange = (e) => {
     setLanguage(e.target.value);
@@ -35,24 +32,21 @@ const CodeEditor = () => {
       </div>
       <div className={styles.container}>
         <div className={`${styles.left} ${styles.leftHeader}`}>
-          <button
-            className={tab === 'description' && styles.active}
-            onClick={() => setTab('description')}
-          >
-            Description
-          </button>
-          <button
-            className={tab === 'submissions' && styles.active}
-            onClick={() => setTab('submissions')}
-          >
-            Submission
-          </button>
-          <button
-            className={tab === 'output' && styles.active}
-            onClick={() => setTab('output')}
-          >
-            Output
-          </button>
+          <div className={styles.buttons}>
+            <button>Q. 1</button>
+            <button>Q. 2</button>
+            <button>Q. 3</button>
+            <button>Q. 4</button>
+            <button>Q. 5</button>
+            <button>Q. 6</button>
+            <button>Q. 7</button>
+            <button className={styles.navButton}>
+              <FaAngleLeft />
+            </button>
+            <button className={styles.navButton}>
+              <FaAngleRight />
+            </button>
+          </div>
         </div>
         <div className={styles.right}>
           <div className={styles.options}>
@@ -70,14 +64,8 @@ const CodeEditor = () => {
           </div>
         </div>
       </div>
-      <div className={styles.container}>
-        {tab === 'description' ? (
-          <Question />
-        ) : tab === 'submissions' ? (
-          <Submissions />
-        ) : (
-          <Output />
-        )}
+      <div className={`${styles.container} ${styles.rightContainer}`}>
+        <Question />
 
         <div className={styles.right}>
           <MonacoEditor
@@ -91,6 +79,10 @@ const CodeEditor = () => {
               fontWeight: 500,
             }}
           />
+
+          <div className={styles.output}>
+            <FaWindowClose className={styles.close} />
+          </div>
         </div>
       </div>
     </div>

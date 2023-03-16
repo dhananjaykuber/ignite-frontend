@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setAdmin } from '../../redux/adminSlice';
@@ -16,6 +16,17 @@ const Admin = () => {
     password: '',
   });
 
+  useEffect(() => {
+    dispatch(setAdmin(localStorage.getItem('admin')));
+
+    if (
+      localStorage.getItem('admin') &&
+      JSON.parse(localStorage.getItem('admin')).token.length > 0
+    ) {
+      navigate('/admin/dashboard');
+    }
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -29,6 +40,7 @@ const Admin = () => {
         }
       );
       dispatch(setAdmin(response.data));
+      localStorage.setItem('admin', JSON.stringify(response.data));
       navigate('/admin/dashboard');
     } catch (error) {
       dispatch(setError('Invalid username and password'));

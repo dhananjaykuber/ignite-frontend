@@ -1,19 +1,21 @@
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import JoditEditor from 'jodit-react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setError, setSuccess } from '../../redux/toastSlice';
 import styles from '../../styles/pages/Admin.module.css';
 import registerStyle from '../../styles/pages/Register.module.css';
 
-const options = ['aptitude', 'bugbountyquiz', 'bugbountycode'];
+const options = ['bugbounty', 'aptitude'];
 
 const AddQuestion = () => {
   const dispatch = useDispatch();
 
+  const { data } = useSelector((store) => store.admin);
+
   const ref = useRef(null);
 
-  const [category, setCategory] = useState('aptitude');
+  const [category, setCategory] = useState('bugbounty');
   const [question, setQuestion] = useState('');
   const [option1, setOption1] = useState('');
   const [option2, setOption2] = useState('');
@@ -52,11 +54,18 @@ const AddQuestion = () => {
         {
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(data).token}`,
           },
         }
       );
 
       dispatch(setSuccess('Question added'));
+      setQuestion('');
+      setOption1('');
+      setOption2('');
+      setOption3('');
+      setOption4('');
+      setAnswer('');
     } catch (error) {
       dispatch(setError('Error occured while adding question'));
       console.log(error);

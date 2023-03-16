@@ -3,20 +3,15 @@ import { toast } from 'react-toastify';
 import styles from '../styles/pages/Register.module.css';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
+import { useSearchParams } from 'react-router-dom';
 
 const qrs = {
-  30: '/qrs/30rs.jpeg',
-  60: '/qrs/60rs.jpeg',
-  90: '/qrs/90rs.jpeg',
-  120: '/qrs/120rs.jpeg',
-  150: '/qrs/150rs.jpeg',
-  200: '/qrs/200rs.jpeg',
-  300: '/qrs/300rs.jpeg',
-  450: '/qrs/450rs.jpeg',
-  600: '/qrs/600rs.jpeg',
+  100: '/qrs/100rs.jpeg',
 };
 
 const Register = () => {
+  const [searchParams] = useSearchParams();
+
   const years = ['1st', '2nd', '3rd', '4th'];
   const events = [
     'Bug Bounty',
@@ -36,6 +31,7 @@ const Register = () => {
     current_year: '1st',
     event_name: 'Bug Bounty',
     payment_id: '',
+    member_count: 1,
     team_members: [],
     teammember1: '',
     teammember2: '',
@@ -49,46 +45,27 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (
-      data.event_name === 'Bug Bounty' ||
-      data.event_name === 'Mock Placement'
-    ) {
-      setFees(30);
-    } else if (data.event_name === 'Hackathon') {
-      let fee = 150;
-      if (data.teammember1.length > 0) {
-        fee += 150;
-      }
-      if (data.teammember2.length > 0) {
-        fee += 150;
-      }
-      if (data.teammember3.length > 0) {
-        fee += 150;
-      }
-      setFees(fee);
-    } else if (
-      data.event_name === 'Design-X' ||
-      data.event_name === 'Escape Room'
-    ) {
-      let fee = 30;
-      if (data.teammember1.length > 0) {
-        fee += 30;
-      }
-      if (data.teammember2.length > 0) {
-        fee += 30;
-      }
-      if (data.teammember3.length > 0) {
-        fee += 30;
-      }
-      setFees(fee);
+    if (data.event_name === 'Hackathon') {
+      setFees(100);
+    } else {
+      setFees(0);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (searchParams.get('name')) {
+      setData({ ...data, event_name: searchParams.get('name') });
+    }
+  }, []);
 
   const onYearChange = (e) => {
     setData({ ...data, current_year: e.target.value });
   };
 
   const onEventChange = (e) => {
+    if (searchParams.get('name')) {
+      searchParams.get('name');
+    }
     const _event = e.target.value;
     setData({
       ...data,
@@ -135,9 +112,7 @@ const Register = () => {
       data.email.length < 1 ||
       data.contact.length < 1 ||
       data.college_name.length < 1 ||
-      data.college_department.length < 1 ||
-      data.payment_id.length < 1 ||
-      data.payment_screenshot.length < 1
+      data.college_department.length < 1
     ) {
       notifyError('Please fill all required fields');
       setLoading(false);
@@ -160,6 +135,7 @@ const Register = () => {
       formData.append('payment_id', data.payment_id);
       formData.append('team_members', team);
       formData.append('is_team_event', false);
+      formData.append('member_count', data.member_count);
       formData.append('payment_screenshot', data.payment_screenshot);
 
       try {
@@ -191,6 +167,7 @@ const Register = () => {
           teammember3: '',
           is_team_event: false,
           payment_screenshot: '',
+          member_count: 1,
         });
       } catch (error) {
         notifyError(
@@ -230,6 +207,7 @@ const Register = () => {
       formData.append('team_members', team);
       formData.append('is_team_event', true);
       formData.append('payment_screenshot', data.payment_screenshot);
+      formData.append('member_count', data.member_count);
 
       try {
         const response = await axios.post(
@@ -259,6 +237,7 @@ const Register = () => {
           teammember3: '',
           is_team_event: false,
           payment_screenshot: '',
+          member_count: 1,
         });
       } catch (error) {
         notifyError(
@@ -387,97 +366,80 @@ const Register = () => {
             </label>
             <select onChange={onEventChange}>
               {events.map((event) => (
-                <option key={event}>{event}</option>
+                <option key={event} selected={data.event_name === event}>
+                  {event}
+                </option>
               ))}
             </select>
           </div>
         </div>
+
         {(data.event_name === 'Hackathon' ||
           data.event_name === 'Escape Room' ||
           data.event_name === 'Design-X') && (
+          <div className={styles.row1}>
+            <div className={styles.floatinglabelgroup}>
+              <input
+                type="number"
+                id="teammember1"
+                className={styles.formcontrol}
+                value={data.member_count}
+                onChange={(e) =>
+                  setData({ ...data, member_count: e.target.value })
+                }
+                max={data.event_name === 'Design-X' ? 3 : 4}
+              />
+              <label className={styles.floatinglabel} htmlFor="teammember1">
+                Number of Team Members
+              </label>
+            </div>
+          </div>
+        )}
+
+        {data.event_name === 'Hackathon' && (
+          <div className={styles.row1}>
+            <div className={styles.floatinglabelgroup}>
+              <input
+                type="text"
+                id="paymentid"
+                className={styles.formcontrol}
+                required
+                value={data.payment_id}
+                onChange={(e) =>
+                  setData({ ...data, payment_id: e.target.value })
+                }
+              />
+              <label className={styles.floatinglabel} htmlFor="paymentid">
+                Payment ID <span>*</span>
+              </label>
+            </div>
+          </div>
+        )}
+        {data.event_name === 'Hackathon' && (
           <>
-            <div className={styles.row1}>
-              <div className={styles.floatinglabelgroup}>
-                <input
-                  type="text"
-                  id="teammember1"
-                  className={styles.formcontrol}
-                  onChange={(e) =>
-                    setData({ ...data, teammember1: e.target.value })
-                  }
-                />
-                <label className={styles.floatinglabel} htmlFor="teammember1">
-                  Team member
-                </label>
-              </div>
+            <div className={styles.floatinglabelgroup}>
+              <input
+                type="file"
+                id="paymentscreenshot"
+                onChange={(e) =>
+                  setData({ ...data, payment_screenshot: e.target.files[0] })
+                }
+              />
+              <label
+                className={styles.floatinglabel}
+                htmlFor="paymentscreenshot"
+              >
+                Payment screenshot <span>*</span>
+              </label>
             </div>
-            <div className={styles.row1}>
-              <div className={styles.floatinglabelgroup}>
-                <input
-                  type="text"
-                  id="teammember2"
-                  className={styles.formcontrol}
-                  onChange={(e) =>
-                    setData({ ...data, teammember2: e.target.value })
-                  }
-                />
-                <label className={styles.floatinglabel} htmlFor="teammember2">
-                  Team member
-                </label>
-              </div>
+            <p>
+              Please pay Rs. {fees} for {data.event_name} on below QR
+            </p>
+            <div className={styles.qr}>
+              <img src={qrs[fees]} alt={`${fees}-qr`} />
             </div>
-            {data.event_name !== 'Design-X' && (
-              <div className={styles.row1}>
-                <div className={styles.floatinglabelgroup}>
-                  <input
-                    type="text"
-                    id="teammember3"
-                    className={styles.formcontrol}
-                    onChange={(e) =>
-                      setData({ ...data, teammember3: e.target.value })
-                    }
-                  />
-                  <label className={styles.floatinglabel} htmlFor="teammember3">
-                    Team member
-                  </label>
-                </div>
-              </div>
-            )}
           </>
         )}
-        <div className={styles.row1}>
-          <div className={styles.floatinglabelgroup}>
-            <input
-              type="text"
-              id="paymentid"
-              className={styles.formcontrol}
-              required
-              value={data.payment_id}
-              onChange={(e) => setData({ ...data, payment_id: e.target.value })}
-            />
-            <label className={styles.floatinglabel} htmlFor="paymentid">
-              Payment ID <span>*</span>
-            </label>
-          </div>
-        </div>
-        <div className={styles.floatinglabelgroup}>
-          <input
-            type="file"
-            id="paymentscreenshot"
-            onChange={(e) =>
-              setData({ ...data, payment_screenshot: e.target.files[0] })
-            }
-          />
-          <label className={styles.floatinglabel} htmlFor="paymentscreenshot">
-            Payment screenshot <span>*</span>
-          </label>
-        </div>
-        <p>
-          Please pay Rs. {fees} for {data.event_name} on below QR
-        </p>
-        <div className={styles.qr}>
-          <img src={qrs[fees]} alt={`${fees}-qr`} />
-        </div>
         <button>{loading ? 'Submitting...' : 'Submit'}</button>
       </form>
     </div>

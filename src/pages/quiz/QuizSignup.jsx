@@ -107,17 +107,9 @@ const QuizSignup = () => {
         />
       )}
 
-      {!islive && (
-        <h1>
-          {category} Quiz&nbsp;{searchParams.get('name')} is not live yet.
-        </h1>
-      )}
+      {!islive && <h1>{searchParams.get('name')} is not live yet.</h1>}
 
-      {islive && (
-        <h1>
-          {category} Quiz&nbsp;{searchParams.get('name')}
-        </h1>
-      )}
+      {islive && <h1>Quiz for&nbsp;{searchParams.get('name')}</h1>}
 
       {islive && (
         <form onSubmit={handleSubmit}>

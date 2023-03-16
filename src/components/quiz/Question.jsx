@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAnswers, setOption } from '../../redux/quizSlice';
+import { setOption } from '../../redux/quizSlice';
 import styles from '../../styles/pages/Quiz.module.css';
 
 const Question = ({ quiz, index }) => {

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   data: null,
+  loading: false,
 };
 
 const adminSlice = createSlice({

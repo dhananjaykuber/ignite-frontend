@@ -4,17 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Question from '../../components/quiz/Question';
 import { setAnswers, setQuiz } from '../../redux/quizSlice';
-import {
-  FaAngleRight,
-  FaAngleLeft,
-  FaBackward,
-  FaClock,
-  FaHome,
-} from 'react-icons/fa';
+import { FaAngleRight, FaAngleLeft, FaClock } from 'react-icons/fa';
 import { setError } from '../../redux/toastSlice';
 import convert from 'convert-seconds';
 import styles from '../../styles/pages/Quiz.module.css';
-import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 
 //
 //
@@ -35,6 +28,7 @@ const Quiz = () => {
   let currentTime = 0;
   const [index, setIndex] = useState(0);
   const [time, setTime] = useState(0);
+  const [stateTotalTime, setStateTotalTime] = useState(0);
 
   const nextQuestion = () => {
     if (index < quiz.length - 1) {
@@ -58,7 +52,7 @@ const Quiz = () => {
     const increaseTime = async () => {
       console.log('hello');
 
-      if (currentTime >= totalTime - 20) {
+      if (currentTime >= totalTime - 10) {
         handleOnSubmit(true);
         return;
       }
@@ -108,6 +102,7 @@ const Quiz = () => {
 
         console.log('totaltime: ', response.data.time);
         totalTime = response.data.time;
+        setStateTotalTime(response.data.time);
       } catch (error) {
         console.log(error);
       }
@@ -296,7 +291,12 @@ const Quiz = () => {
       <h1>{category}</h1>
 
       <h6>
-        <FaClock /> {convert(time).minutes.toString().length === 1 && 0}
+        <FaClock />
+        {/* {convert(stateTotalTime - time).minutes.toString().length === 1 && 0}
+        {convert(stateTotalTime - time).minutes}:
+        {convert(stateTotalTime - time).seconds.toString().length === 1 && 0}
+        {convert(stateTotalTime - time).seconds} */}
+        {convert(time).minutes.toString().length === 1 && 0}
         {convert(time).minutes}:
         {convert(time).seconds.toString().length === 1 && 0}
         {convert(time).seconds}

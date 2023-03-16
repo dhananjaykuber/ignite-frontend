@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from '../../styles/pages/Admin.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setError, setSuccess } from '../../redux/toastSlice';
 
 const options = ['aptitude', 'bugbountyquiz', 'bugbountycode'];
 
 const CalculateScore = () => {
   const dispatch = useDispatch();
+
+  const { data } = useSelector((store) => store.admin);
 
   const [state, setState] = useState('aptitude');
 

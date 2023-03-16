@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import convert from 'convert-seconds';
 import styles from '../../styles/pages/Admin.module.css';
+import { useSelector } from 'react-redux';
 
-const options = ['aptitude', 'bugbountyquiz', 'bugbountycode'];
+const options = ['bugbounty', 'aptitude'];
 
 const TestScores = () => {
-  const [state, setState] = useState('aptitude');
+  const { data } = useSelector((store) => store.admin);
+
+  const [state, setState] = useState('bugbounty');
 
   const [entries, setEntries] = useState([]);
 
@@ -16,10 +19,16 @@ const TestScores = () => {
   };
 
   const handleLoad = async () => {
+    console.log('hello');
     setEntries([]);
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_NODE_BACKEND}/apinode/category/calculate-result/${state}`
+        `${process.env.REACT_APP_NODE_BACKEND}/apinode/category/calculate-result/${state}`,
+        {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(data).token}`,
+          },
+        }
       );
 
       setEntries(response.data);

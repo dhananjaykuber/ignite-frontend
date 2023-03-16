@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux';
 import styles from '../../styles/pages/Admin.module.css';
 import { setError, setSuccess } from '../../redux/toastSlice';
 
-const options = ['aptitude', 'bugbountyquiz', 'bugbountycode'];
+const options = ['bugbounty', 'aptitude'];
 
 const ListQuestions = () => {
   const dispatch = useDispatch();
 
-  const [state, setState] = useState('aptitude');
+  const [state, setState] = useState('bugbounty');
 
   const [entries, setEntries] = useState([]);
 

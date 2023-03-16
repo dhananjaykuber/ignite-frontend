@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import convert from 'convert-seconds';
 import styles from '../../styles/pages/Admin.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setError, setSuccess } from '../../redux/toastSlice';
 
 const SeeCategories = () => {
   const dispatch = useDispatch();
+
+  const { data } = useSelector((store) => store.admin);
 
   const [entries, setEntries] = useState([]);
 
@@ -17,7 +19,12 @@ const SeeCategories = () => {
       setEntries([]);
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_NODE_BACKEND}/apinode/category/get-all-categories`
+          `${process.env.REACT_APP_NODE_BACKEND}/apinode/category/get-all-categories`,
+          {
+            headers: {
+              Authorization: `Bearer ${JSON.parse(data).token}`,
+            },
+          }
         );
 
         setEntries(response.data);

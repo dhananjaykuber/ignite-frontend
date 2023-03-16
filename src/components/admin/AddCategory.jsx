@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setError, setSuccess } from '../../redux/toastSlice';
 import styles from '../../styles/pages/Admin.module.css';
 import registerStyle from '../../styles/pages/Register.module.css';
 
-const options = ['aptitude', 'bugbountyquiz', 'bugbountycode'];
-
 const AddCategory = () => {
   const dispatch = useDispatch();
+
+  const { data } = useSelector((store) => store.admin);
 
   const [time, setTime] = useState('');
   const [category, setCategory] = useState('');
@@ -25,6 +25,7 @@ const AddCategory = () => {
         {
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(data).token}`,
           },
         }
       );

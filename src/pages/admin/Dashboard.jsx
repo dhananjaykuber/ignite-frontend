@@ -8,21 +8,31 @@ import AddCategory from '../../components/admin/AddCategory';
 import SeeCategories from '../../components/admin/SeeCategories';
 import ListQuestions from '../../components/admin/ListQuestions';
 import AddQuestion from '../../components/admin/AddQuestion';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { setAdmin } from '../../redux/adminSlice';
+import AllEntries from '../../components/admin/AllEntries';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const [tab, setTab] = useState('add new category');
 
   const { data } = useSelector((store) => store.admin);
 
   useEffect(() => {
-    if (!data) {
+    console.log(localStorage.getItem('admin'));
+    dispatch(setAdmin(localStorage.getItem('admin')));
+
+    if (
+      localStorage.getItem('admin') &&
+      JSON.parse(localStorage.getItem('admin')).token.length === 0
+    ) {
       navigate('/admin');
     }
-  }, [data]);
+  }, []);
 
   return (
     <div className={`${treasurerStyles.treasurer} ${styles.admin}`}>
@@ -71,6 +81,22 @@ const Dashboard = () => {
         >
           Calculate scores
         </button>
+        <button
+          onClick={() => setTab('all entries')}
+          style={{ background: tab === 'all entries' && '#0cd1eb' }}
+        >
+          All entries
+        </button>
+        <button
+          style={{ background: '#ff3737' }}
+          onClick={() => {
+            dispatch(setAdmin(null));
+            localStorage.setItem('admin', '');
+            navigate('/admin');
+          }}
+        >
+          Logout
+        </button>
       </div>
 
       {tab === 'add new category' ? (
@@ -87,6 +113,8 @@ const Dashboard = () => {
         <TestScores />
       ) : tab === 'calculate scores' ? (
         <CalculateScore />
+      ) : tab === 'all entries' ? (
+        <AllEntries />
       ) : (
         <AddCategory />
       )}

@@ -3,9 +3,11 @@ import styles from '../../styles/pages/Editor.module.css';
 
 const Question = () => {
   return (
-    <div className={styles.left} style={{ paddingBottom: '80px' }}>
+    <div
+      className={`${styles.left} ${styles.question}`}
+      style={{ paddingBottom: '80px' }}
+    >
       <h2>Max Consecutive Ones</h2>
-      <span>Easy</span>
       <p>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio
         minima nihil beatae odio vitae! Maxime, expedita maiores. Quasi aliquam
