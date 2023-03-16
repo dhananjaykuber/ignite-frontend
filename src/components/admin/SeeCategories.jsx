@@ -39,7 +39,12 @@ const SeeCategories = () => {
   const handleLive = async (name) => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_NODE_BACKEND}/apinode/category/set-live/${name}`
+        `${process.env.REACT_APP_NODE_BACKEND}/apinode/category/set-live/${name}`,
+        {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(data).token}`,
+          },
+        }
       );
       dispatch(setSuccess(`${name} quiz status updated`));
     } catch (error) {

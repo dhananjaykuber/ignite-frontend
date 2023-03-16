@@ -16,7 +16,23 @@ const Appear = () => {
               <h4>Bug Bounty</h4>
               <button
                 onClick={() => {
-                  navigate('/quiz/aptitude?name=Bug Bounty');
+                  navigate('/quiz/bugbounty?name=Bug Bounty');
+                }}
+              >
+                Take Quiz
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className={styles.event}>
+          <div className={styles.content}>
+            <div className={styles.contentOverlay}></div>
+            <img src="/events/mockplacement.png" alt="Mock Placement" />
+            <div className={`${styles.contentDetails} ${styles.contentFadeIn}`}>
+              <h4>Mock Placement</h4>
+              <button
+                onClick={() => {
+                  navigate('/quiz/aptitude?name=Mock Placement');
                 }}
               >
                 Take Quiz

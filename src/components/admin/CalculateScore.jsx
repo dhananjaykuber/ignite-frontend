@@ -4,7 +4,7 @@ import styles from '../../styles/pages/Admin.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setError, setSuccess } from '../../redux/toastSlice';
 
-const options = ['aptitude', 'bugbountyquiz', 'bugbountycode'];
+const options = ['bugbounty', 'aptitude'];
 
 const CalculateScore = () => {
   const dispatch = useDispatch();

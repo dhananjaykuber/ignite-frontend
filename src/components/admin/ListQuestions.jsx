@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from '../../styles/pages/Admin.module.css';
 import { setError, setSuccess } from '../../redux/toastSlice';
 
@@ -8,6 +8,8 @@ const options = ['bugbounty', 'aptitude'];
 
 const ListQuestions = () => {
   const dispatch = useDispatch();
+
+  const { data } = useSelector((store) => store.admin);
 
   const [state, setState] = useState('bugbounty');
 
@@ -35,7 +37,12 @@ const ListQuestions = () => {
     console.log(_id);
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_NODE_BACKEND}/apinode/quiz/delete-quiz/${state}?id=${_id}`
+        `${process.env.REACT_APP_NODE_BACKEND}/apinode/quiz/delete-quiz/${state}?id=${_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(data).token}`,
+          },
+        }
       );
 
       dispatch(setSuccess(response.data.message));
