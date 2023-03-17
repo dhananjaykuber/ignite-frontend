@@ -14,10 +14,43 @@
   margin-top: 50px;
 }
 
-.sponsors h1 {
+.sponsors h1,
+.sponsors h2 {
   color: #fdfdfd;
   font-size: 300%;
   font-weight: 600;
   margin: 20px 10px;
   text-transform: uppercase;
+  margin-bottom: 80px;
+  text-align: center;
+}
+
+.sponsors h2 {
+  font-size: 2rem;
+  margin: 0px !important;
+}
+
+.sponsors .otherSponsors {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.sponsors img {
+  background: #fdfdfd;
+  height: 200px;
+  width: 200px;
+  object-fit: contain;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+@media only screen and (max-width: 860px) {
+  .sponsors {
+    padding-top: 60px;
+  }
 }

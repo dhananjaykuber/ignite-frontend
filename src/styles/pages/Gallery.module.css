@@ -60,7 +60,7 @@
 .imageGallery img {
   width: 350px;
   height: 270px;
-  object-fit: cover;
+  object-fit: fill;
   margin: 10px;
   transition: 0.5s all ease-in-out;
 }

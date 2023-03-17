@@ -37,9 +37,6 @@
   padding: 0px;
 }
 
-.leftHeader .buttons {
-}
-
 .leftHeader .buttons button {
   background: #217eff;
   border: none;
@@ -55,23 +52,6 @@
   margin-top: 10px;
   margin-bottom: 20px;
 }
-
-/* .leftHeader button {
-  border: none;
-  border-radius: 0px;
-  outline: none;
-  padding: 0px 15px;
-  font-size: 16px;
-  background: transparent;
-  color: #fdfdfd;
-  cursor: pointer;
-  transition: 0.3s all ease-in-out;
-  height: 100%;
-  margin-right: 8px;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  font-size: 15px;
-} */
 
 .left h2 {
   color: #fdfdfd;
@@ -166,18 +146,18 @@
 
 .left .buttons button {
   border: none;
-  background: #494949;
+  background: #4d4d4d;
   border-radius: 5px;
   outline: none;
   padding: 10px 5px;
-  font-size: 16px;
+  font-size: 14px;
   color: #fdfdfd;
   cursor: pointer;
   transition: 0.3s all ease-in-out;
 }
 
 .left .buttons .navButton {
-  padding: 10px 15px;
+  padding: 10px 12px;
   background: #008000 !important;
 }
 
@@ -196,6 +176,9 @@
   margin-left: 41%;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .output .close {
@@ -204,5 +187,29 @@
   top: 10px;
   color: #fdfdfd;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 20px;
+}
+
+.hideOutput {
+  display: none;
+}
+
+.buttons .activeQuestion {
+  background: #217eff !important;
+}
+
+.editorPage .editor {
+  height: 80vh !important;
+}
+
+.editorPage .accepted {
+  color: #008000;
+  padding: 25px;
+  font-weight: 500;
+}
+
+.editorPage .notAccepted {
+  color: #c43400;
+  padding: 25px;
+  font-weight: 500;
 }

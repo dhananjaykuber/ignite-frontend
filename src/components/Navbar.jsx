@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
 import { MdMenu } from 'react-icons/md';
 import styles from '../styles/components/Layout.module.css';
+import { FaCode } from 'react-icons/fa';
 
 const Navbar = () => {
   const location = useLocation();
@@ -37,12 +38,24 @@ const Navbar = () => {
         <li onClick={() => setOpen(false)}>
           <Link to="/events">Events</Link>
         </li>
-        {/* <li onClick={() => setOpen(false)}>
+        <li onClick={() => setOpen(false)}>
           <Link to="/sponsors">Sponsors</Link>
-        </li> */}
+        </li>
         <li onClick={() => setOpen(false)}>
           <Link to="/gallery">Gallery</Link>
         </li>
+        {/* <li onClick={() => setOpen(false)}>
+          <Link
+            to="/appear"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            Test <FaCode style={{ marginLeft: 10 }} />
+          </Link>
+        </li> */}
       </ul>
     </nav>
   );

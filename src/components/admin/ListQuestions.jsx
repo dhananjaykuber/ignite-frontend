@@ -17,10 +17,10 @@ const ListQuestions = () => {
 
   const onEventChange = (e) => {
     setState(e.target.value);
-    console.log(e.target.value);
+    getQuestions(e.target.value);
   };
 
-  const getQuestions = async () => {
+  const getQuestions = async (state) => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_NODE_BACKEND}/apinode/category/get-questions/${state}`
@@ -61,9 +61,16 @@ const ListQuestions = () => {
             <option key={opt}>{opt}</option>
           ))}
         </select>
-        <button onClick={getQuestions}>Load</button>
-        <h4 style={{ color: '#fdfdfd', fontWeight: 500, fontSize: 20 }}>
-          Total: {entries?.length}
+        {/* <button onClick={getQuestions}>Load</button> */}
+        <h4
+          style={{
+            color: '#fdfdfd',
+            fontWeight: 500,
+            fontSize: 20,
+            marginLeft: 10,
+          }}
+        >
+          Total: {entries?.length} {`(${state})`}
         </h4>
       </div>
 

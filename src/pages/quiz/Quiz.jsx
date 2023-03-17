@@ -234,6 +234,18 @@ const Quiz = () => {
           }
         );
 
+        if (localStorage.getItem('email')) {
+          if (localStorage.getItem('email') !== data.email) {
+            navigate('/');
+            window.location.reload();
+            localStorage.clear();
+
+            return;
+          }
+        } else {
+          localStorage.setItem('email', data.email);
+        }
+
         if (localStorage.getItem('category')) {
           if (localStorage.getItem('category') !== response.data[0].category) {
             navigate('/');

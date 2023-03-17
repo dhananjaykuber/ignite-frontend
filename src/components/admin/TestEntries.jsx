@@ -19,9 +19,10 @@ const TestEntries = () => {
   const onEventChange = (e) => {
     setState(e.target.value);
     console.log(e.target.value);
+    handleLoad(e.target.value);
   };
 
-  const handleLoad = async () => {
+  const handleLoad = async (state) => {
     setEntries([]);
     try {
       const response = await axios.get(
@@ -61,12 +62,25 @@ const TestEntries = () => {
     <div>
       <h3>Test Entries</h3>
       <div className={styles.options}>
-        <select onChange={onEventChange} style={{ marginBottom: 0 }}>
+        <select
+          onChange={onEventChange}
+          style={{ marginBottom: 0, marginLeft: 10 }}
+        >
           {options.map((opt) => (
             <option key={opt}>{opt}</option>
           ))}
         </select>
-        <button onClick={handleLoad}>Load</button>
+        {/* <button onClick={handleLoad}>Load</button> */}
+        <h4
+          style={{
+            color: '#fdfdfd',
+            fontWeight: 500,
+            fontSize: 20,
+            marginLeft: 10,
+          }}
+        >
+          Total: {entries?.length} {`(${state})`}
+        </h4>
       </div>
 
       <table border={1}>

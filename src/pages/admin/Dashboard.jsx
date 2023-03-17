@@ -84,9 +84,9 @@ const Dashboard = () => {
         <button
           style={{ background: '#ff3737' }}
           onClick={() => {
-            dispatch(setAdmin(null));
-            localStorage.setItem('admin', '');
+            localStorage.clear();
             navigate('/admin');
+            window.location.reload();
           }}
         >
           Logout

@@ -4,6 +4,14 @@ import styles from '../styles/pages/Gallery.module.css';
 
 const all = [
   {
+    id: 10,
+    source: '/gallery/inauguration-1.png',
+  },
+  {
+    id: 11,
+    source: '/gallery/inauguration-4.png',
+  },
+  {
     id: 1,
     source: '/gallery/events-1.jpg',
   },
@@ -61,6 +69,10 @@ const events = [
 ];
 
 const inauguration = [
+  {
+    id: 8,
+    source: '/gallery/inauguration-1.png',
+  },
   {
     id: 1,
     source: '/gallery/inauguration-1.jpg',
