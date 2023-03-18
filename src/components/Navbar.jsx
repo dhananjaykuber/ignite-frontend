@@ -44,7 +44,7 @@ const Navbar = () => {
         <li onClick={() => setOpen(false)}>
           <Link to="/gallery">Gallery</Link>
         </li>
-        {/* <li onClick={() => setOpen(false)}>
+        <li onClick={() => setOpen(false)}>
           <Link
             to="/appear"
             style={{
@@ -55,7 +55,7 @@ const Navbar = () => {
           >
             Test <FaCode style={{ marginLeft: 10 }} />
           </Link>
-        </li> */}
+        </li>
       </ul>
     </nav>
   );

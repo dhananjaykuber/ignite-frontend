@@ -48,7 +48,7 @@ const Quiz = () => {
       navigate('/');
     }
 
-    console.log('quiz: ', localStorage.getItem('quiz'));
+    // console.log('quiz: ', localStorage.getItem('quiz'));
 
     // update time after every 10 sec
     const increaseTime = async () => {
@@ -104,12 +104,15 @@ const Quiz = () => {
 
         console.log('totaltime: ', response.data.time);
         totalTime = response.data.time;
+        console.log('this is total time: ', totalTime);
+        //
+        //
+        //
+        //
+        // setStateTotalTime(response.data.time - time);
 
-        //
-        //
-        //
-        //
-        setStateTotalTime(response.data.time - time);
+        getTime();
+        // console.log('ha time aahe: ', response.data.time - time);
       } catch (error) {
         console.log(error);
       }
@@ -119,13 +122,18 @@ const Quiz = () => {
       // if time present in localstorage then return
       const tempTime = JSON.parse(localStorage.getItem('time'));
       if (tempTime) {
+        console.log('bhai ha time aahe na: ', tempTime, totalTime);
+        setStateTotalTime(totalTime - tempTime);
+
         currentTime = tempTime;
-        setTime(tempTime);
+        setTime(parseInt(tempTime));
 
         // start countdown
         setInterval(() => {
           setTime((prev) => prev + 1);
           currentTime += 1;
+
+          setStateTotalTime((prev) => prev - 1);
 
           if (currentTime >= totalTime) {
             handleOnSubmit(true);
@@ -137,6 +145,8 @@ const Quiz = () => {
 
         return;
       }
+
+      console.log('hello this is after return statement');
 
       try {
         const response = await axios.post(
@@ -156,6 +166,8 @@ const Quiz = () => {
         if (response.data !== null) {
           console.log('mytime: ', response.data.time);
           setTime(response.data.time);
+
+          setStateTotalTime(totalTime - response.data.time);
 
           currentTime = response.data.time;
           // start countdown
@@ -267,7 +279,7 @@ const Quiz = () => {
         // call getAnswers after getting all quizes
         getAnswers();
         // get time
-        getTime();
+        // getTime();
       } catch (error) {
         if (
           error.response.data.error === 'You have already attempted the quiz.'

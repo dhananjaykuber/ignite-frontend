@@ -25,9 +25,10 @@ import Submit from './pages/Submit';
 import Attempted from './pages/Attempted';
 import ClearStorage from './pages/ClearStorage';
 import Appear from './pages/Appear';
-import CodeEditor from './pages/CodeEditor';
+import CodeEditor from './pages/editor/CodeEditor';
 import { useDispatch } from 'react-redux';
 import { getAdminInformation } from './redux/adminSlice';
+import CodeEditorSignup from './pages/editor/CodeEditorSignup';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -53,7 +54,8 @@ const App = () => {
           <Route path="/quiz/:category/start" element={<Quiz />} />
           <Route path="/quiz/:category/submit" element={<Submit />} />
           <Route path="/quiz/:category/attempted" element={<Attempted />} />
-          <Route path="/editor" element={<CodeEditor />} />
+          <Route path="/editor/login" element={<CodeEditorSignup />} />
+          <Route path="/editor/exam" element={<CodeEditor />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/appear" element={<Appear />} />

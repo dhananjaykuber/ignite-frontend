@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import Question from '../components/editor/Question';
+import Question from '../../components/editor/Question';
+import Editor from '../../components/editor/Editor';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import Editor from '../components/editor/Editor';
 import { confirmAlert } from 'react-confirm-alert';
+import axios from 'axios';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import styles from '../styles/pages/Editor.module.css';
+import styles from '../../styles/pages/Editor.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const langs = ['cpp', 'c', 'python'];
 
 const CodeEditor = () => {
+  const navigate = useNavigate();
+
   const [code, setCode] = useState('hello all');
 
   const [language, setLanguage] = useState('cpp');
-
-  const onLanguageChange = (e) => {
-    setLanguage(e.target.value);
-  };
 
   // code editor data
   const [questions, setQuestions] = useState([
@@ -321,6 +321,31 @@ const CodeEditor = () => {
     },
   });
 
+  useEffect(() => {
+    const getQuestions = async () => {
+      const response = await axios.get(
+        `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/questions/test`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
+          },
+        }
+      );
+
+      console.log(response.data);
+    };
+
+    if (!localStorage.getItem('codetoken')) {
+      navigate('/editor/login');
+    } else {
+      getQuestions();
+    }
+  }, []);
+
+  const onLanguageChange = (e) => {
+    setLanguage(e.target.value);
+  };
+
   // question navigation
   const nextQuestion = () => {
     if (questionIndex !== questions.length - 1) {
@@ -340,9 +365,6 @@ const CodeEditor = () => {
   // get all questions
   const getQuestions = async () => {
     setCode(questions[questionIndex]?.question?.current_code);
-
-    // set all questions to localstorage
-    localStorage.setItem('codingquestions', JSON.stringify(questions));
   };
 
   // handle editor change event
@@ -395,6 +417,10 @@ const CodeEditor = () => {
       <div className={styles.container}>
         <div className={`${styles.left} ${styles.leftHeader}`}>
           <div className={styles.buttons}>
+            <button className={styles.navButton} onClick={prevQuestion}>
+              <FaAngleLeft />
+            </button>
+
             {questions?.map((question, index) => (
               <button
                 className={index === questionIndex && styles.activeQuestion}
@@ -405,9 +431,6 @@ const CodeEditor = () => {
               </button>
             ))}
 
-            <button className={styles.navButton} onClick={prevQuestion}>
-              <FaAngleLeft />
-            </button>
             <button className={styles.navButton} onClick={nextQuestion}>
               <FaAngleRight />
             </button>
@@ -432,17 +455,17 @@ const CodeEditor = () => {
         </div>
       </div>
       <div className={`${styles.container} ${styles.rightContainer}`}>
-        <Question
+        {/* <Question
           questionIndex={questionIndex}
           question={questions[questionIndex].question}
-        />
+        /> */}
 
         <div className={styles.right}>
-          <Editor
+          {/* <Editor
             language={language}
             code={questions[questionIndex].question.current_code}
             handleCodeChange={handleCodeChange}
-          />
+          /> */}
 
           <div className={` ${showOutput ? styles.output : styles.hideOutput}`}>
             <AiFillCloseCircle

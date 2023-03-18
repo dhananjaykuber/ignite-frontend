@@ -50,7 +50,7 @@ const TestScores = () => {
             <option key={opt}>{opt}</option>
           ))}
         </select>
-        {/* <button onClick={handleLoad}>Load</button> */}
+        <button onClick={() => handleLoad(state)}>Reload</button>
         <h4
           style={{
             color: '#fdfdfd',
