@@ -2,16 +2,12 @@
   background: #000000;
   padding: 30px;
   min-height: 100vh;
-  padding-top: 70px;
+  padding-top: 20px;
 }
 
-.editorPage .header {
+.editorHeader {
   background: #1c1b1b;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 5px 20px;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -93,8 +89,9 @@
 }
 
 .run .submit {
+  position: absolute;
+  right: 30px;
   background: #008000 !important;
-  margin-left: 100px;
   width: fit-content !important;
 }
 

@@ -42,6 +42,10 @@ const Quiz = () => {
   };
   //
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [index]);
+
   // useEffect
   useEffect(() => {
     if (!data) {
@@ -347,11 +351,24 @@ const Quiz = () => {
         {convert(stateTotalTime).minutes}:
         {convert(stateTotalTime).seconds.toString().length === 1 && 0}
         {convert(stateTotalTime).seconds}
-        {/* {convert(time).minutes.toString().length === 1 && 0}
-        {convert(time).minutes}:
-        {convert(time).seconds.toString().length === 1 && 0}
-        {convert(time).seconds} */}
       </h6>
+
+      {quiz && (
+        <div>
+          <div className={styles.progress}>
+            {quiz.map((qz, i) => (
+              <button
+                className={`${answers[i] !== '' && styles.active} ${
+                  i === index && styles.activeBorder
+                }`}
+                onClick={() => setIndex(i)}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {quiz && <Question quiz={quiz[index]} index={index} />}
       {quiz && (
@@ -388,46 +405,16 @@ const Quiz = () => {
           justifyContent: 'center',
         }}
       >
-        {!(index < quiz?.length - 1) && (
-          <button
-            onClick={() => handleOnSubmit(false)}
-            className={styles.submit}
-          >
-            Submit
-          </button>
-        )}
+        <button onClick={() => handleOnSubmit(false)} className={styles.submit}>
+          Submit
+        </button>
       </div>
-
-      {quiz && (
-        <div>
-          <h5
-            style={{
-              textAlign: 'center',
-              fontSize: 18,
-              marginTop: 50,
-              color: '#b6b6b6',
-            }}
-          >
-            Quiz Summary
-          </h5>
-          <div className={styles.progress}>
-            {quiz.map((qz, index) => (
-              <button
-                className={answers[index] !== '' && styles.active}
-                onClick={() => setIndex(index)}
-              >
-                {index + 1}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
 
       <marquee
         width="700px"
         direction="right"
         height="100px"
-        style={{ marginTop: 50, color: '#a7a7a76c', fontWeight: 500 }}
+        style={{ marginTop: 80, color: '#a7a7a76c', fontWeight: 500 }}
       >
         {data?.team_lead} &nbsp;&nbsp;&nbsp; {data?.email} &nbsp;&nbsp;&nbsp;
         {data?.contact} &nbsp;&nbsp;&nbsp; {data?.category}

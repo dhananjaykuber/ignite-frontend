@@ -7,6 +7,7 @@
   flex-direction: column;
   overflow-x: hidden;
   padding: 50px 0px;
+  scroll-behavior: smooth !important;
 }
 
 .quizpage h1 {
@@ -182,8 +183,9 @@
 
 .quizpage .progress {
   display: flex;
-  margin-top: 10px;
+  margin-top: 0px;
   width: 700px;
+  margin-bottom: 50px;
   align-items: center;
   justify-content: center;
 }
@@ -204,10 +206,15 @@
   font-weight: 400;
   border: none;
   cursor: pointer;
+  border: 2px solid transparent;
 }
 
 .progress .active {
   background: #0cd1eb92;
+}
+
+.progress .activeBorder {
+  border-color: #fdfdfd;
 }
 
 .popup .examRules {

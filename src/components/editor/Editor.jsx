@@ -12,7 +12,7 @@ const Editor = ({ language, code, handleCodeChange }) => {
       onChange={handleCodeChange}
       options={{
         theme: 'vs-dark',
-        fontSize: 15,
+        fontSize: 16,
         fontWeight: 500,
       }}
       className={styles.editor}

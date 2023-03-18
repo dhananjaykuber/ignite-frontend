@@ -5,9 +5,9 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { confirmAlert } from 'react-confirm-alert';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import styles from '../../styles/pages/Editor.module.css';
-import { useNavigate } from 'react-router-dom';
 
 const langs = ['cpp', 'c', 'python'];
 
@@ -19,281 +19,7 @@ const CodeEditor = () => {
   const [language, setLanguage] = useState('cpp');
 
   // code editor data
-  const [questions, setQuestions] = useState([
-    {
-      message: 'Question found successfully',
-      question: {
-        _id: '39a16793-dadf-4905-922c-4155cd6a3461',
-        current_code:
-          'class Solution:\n    def twoSum0(self, nums: List[int], target: int) -> List[int]:\n        dict_of_x={}\n        len_of_nums=len(nums)\n        i=0\n        while i<len_of_nums:\n            val= target - nums[i]\n            if(val in dict_of_x):\n                return [dict_of_x[val],i]\n            dict_of_x[nums[i]]=i\n            i+=1',
-        default_code: {
-          python: 'def twoSum(nums: List[int], target: int) -> List[int]:',
-        },
-        difficulty: 2,
-        function_name: 'twoSum',
-        in_progress: true,
-        question_description:
-          '1 Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nYou can return the answer in any order.',
-        question_title: 'Two Sum 1',
-        tags: [],
-        test_cases: [
-          {
-            args: [
-              {
-                data_type: 'list',
-                key: 'nums',
-                value: [2, 7, 11, 15],
-              },
-              {
-                data_type: 'int',
-                key: 'target',
-                value: 9,
-              },
-            ],
-            expected: {
-              data_type: 'list',
-              value: [0, 1],
-            },
-          },
-        ],
-      },
-      success: true,
-    },
-    {
-      message: 'Question found successfully',
-      question: {
-        _id: '39a16793-dadf-4905-922c-4155cd6a3461',
-        current_code:
-          'class Solution:\n    def twoSum1(self, nums: List[int], target: int) -> List[int]:\n        dict_of_x={}\n        len_of_nums=len(nums)\n        i=0\n        while i<len_of_nums:\n            val= target - nums[i]\n            if(val in dict_of_x):\n                return [dict_of_x[val],i]\n            dict_of_x[nums[i]]=i\n            i+=1',
-        default_code: {
-          python: 'def twoSum(nums: List[int], target: int) -> List[int]:',
-        },
-        difficulty: 2,
-        function_name: 'twoSum',
-        in_progress: true,
-        question_description:
-          '2 Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nYou can return the answer in any order.',
-        question_title: 'Two Sum 2',
-        tags: [],
-        test_cases: [
-          {
-            args: [
-              {
-                data_type: 'list',
-                key: 'nums',
-                value: [2, 7, 11, 15],
-              },
-              {
-                data_type: 'int',
-                key: 'target',
-                value: 9,
-              },
-            ],
-            expected: {
-              data_type: 'list',
-              value: [0, 1],
-            },
-          },
-        ],
-      },
-      success: true,
-    },
-    {
-      message: 'Question found successfully',
-      question: {
-        _id: '39a16793-dadf-4905-922c-4155cd6a3461',
-        current_code:
-          'class Solution:\n    def twoSum2(self, nums: List[int], target: int) -> List[int]:\n        dict_of_x={}\n        len_of_nums=len(nums)\n        i=0\n        while i<len_of_nums:\n            val= target - nums[i]\n            if(val in dict_of_x):\n                return [dict_of_x[val],i]\n            dict_of_x[nums[i]]=i\n            i+=1',
-        default_code: {
-          python: 'def twoSum(nums: List[int], target: int) -> List[int]:',
-        },
-        difficulty: 2,
-        function_name: 'twoSum',
-        in_progress: true,
-        question_description:
-          '3 Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nYou can return the answer in any order.',
-        question_title: 'Two Sum 3',
-        tags: [],
-        test_cases: [
-          {
-            args: [
-              {
-                data_type: 'list',
-                key: 'nums',
-                value: [2, 7, 11, 15],
-              },
-              {
-                data_type: 'int',
-                key: 'target',
-                value: 9,
-              },
-            ],
-            expected: {
-              data_type: 'list',
-              value: [0, 1],
-            },
-          },
-        ],
-      },
-      success: true,
-    },
-    {
-      message: 'Question found successfully',
-      question: {
-        _id: '39a16793-dadf-4905-922c-4155cd6a3461',
-        current_code:
-          'class Solution:\n    def twoSum3(self, nums: List[int], target: int) -> List[int]:\n        dict_of_x={}\n        len_of_nums=len(nums)\n        i=0\n        while i<len_of_nums:\n            val= target - nums[i]\n            if(val in dict_of_x):\n                return [dict_of_x[val],i]\n            dict_of_x[nums[i]]=i\n            i+=1',
-        default_code: {
-          python: 'def twoSum(nums: List[int], target: int) -> List[int]:',
-        },
-        difficulty: 2,
-        function_name: 'twoSum',
-        in_progress: true,
-        question_description:
-          '4 Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nYou can return the answer in any order.',
-        question_title: 'Two Sum 4',
-        tags: [],
-        test_cases: [
-          {
-            args: [
-              {
-                data_type: 'list',
-                key: 'nums',
-                value: [2, 7, 11, 15],
-              },
-              {
-                data_type: 'int',
-                key: 'target',
-                value: 9,
-              },
-            ],
-            expected: {
-              data_type: 'list',
-              value: [0, 1],
-            },
-          },
-        ],
-      },
-      success: true,
-    },
-    {
-      message: 'Question found successfully',
-      question: {
-        _id: '39a16793-dadf-4905-922c-4155cd6a3461',
-        current_code:
-          'class Solution:\n    def twoSum4(self, nums: List[int], target: int) -> List[int]:\n        dict_of_x={}\n        len_of_nums=len(nums)\n        i=0\n        while i<len_of_nums:\n            val= target - nums[i]\n            if(val in dict_of_x):\n                return [dict_of_x[val],i]\n            dict_of_x[nums[i]]=i\n            i+=1',
-        default_code: {
-          python: 'def twoSum(nums: List[int], target: int) -> List[int]:',
-        },
-        difficulty: 2,
-        function_name: 'twoSum',
-        in_progress: true,
-        question_description:
-          '5 Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nYou can return the answer in any order.',
-        question_title: 'Two Sum 5',
-        tags: [],
-        test_cases: [
-          {
-            args: [
-              {
-                data_type: 'list',
-                key: 'nums',
-                value: [2, 7, 11, 15],
-              },
-              {
-                data_type: 'int',
-                key: 'target',
-                value: 9,
-              },
-            ],
-            expected: {
-              data_type: 'list',
-              value: [0, 1],
-            },
-          },
-        ],
-      },
-      success: true,
-    },
-    {
-      message: 'Question found successfully',
-      question: {
-        _id: '39a16793-dadf-4905-922c-4155cd6a3461',
-        current_code:
-          'class Solution:\n    def twoSum5(self, nums: List[int], target: int) -> List[int]:\n        dict_of_x={}\n        len_of_nums=len(nums)\n        i=0\n        while i<len_of_nums:\n            val= target - nums[i]\n            if(val in dict_of_x):\n                return [dict_of_x[val],i]\n            dict_of_x[nums[i]]=i\n            i+=1',
-        default_code: {
-          python: 'def twoSum(nums: List[int], target: int) -> List[int]:',
-        },
-        difficulty: 2,
-        function_name: 'twoSum',
-        in_progress: true,
-        question_description:
-          '6 Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nYou can return the answer in any order.',
-        question_title: 'Two Sum 6',
-        tags: [],
-        test_cases: [
-          {
-            args: [
-              {
-                data_type: 'list',
-                key: 'nums',
-                value: [2, 7, 11, 15],
-              },
-              {
-                data_type: 'int',
-                key: 'target',
-                value: 9,
-              },
-            ],
-            expected: {
-              data_type: 'list',
-              value: [0, 1],
-            },
-          },
-        ],
-      },
-      success: true,
-    },
-    {
-      message: 'Question found successfully',
-      question: {
-        _id: '39a16793-dadf-4905-922c-4155cd6a3461',
-        current_code:
-          'class Solution:\n    def twoSum6(self, nums: List[int], target: int) -> List[int]:\n        dict_of_x={}\n        len_of_nums=len(nums)\n        i=0\n        while i<len_of_nums:\n            val= target - nums[i]\n            if(val in dict_of_x):\n                return [dict_of_x[val],i]\n            dict_of_x[nums[i]]=i\n            i+=1',
-        default_code: {
-          python: 'def twoSum(nums: List[int], target: int) -> List[int]:',
-        },
-        difficulty: 2,
-        function_name: 'twoSum',
-        in_progress: true,
-        question_description:
-          '7 Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nYou can return the answer in any order.',
-        question_title: 'Two Sum 7',
-        tags: [],
-        test_cases: [
-          {
-            args: [
-              {
-                data_type: 'list',
-                key: 'nums',
-                value: [2, 7, 11, 15],
-              },
-              {
-                data_type: 'int',
-                key: 'target',
-                value: 9,
-              },
-            ],
-            expected: {
-              data_type: 'list',
-              value: [0, 1],
-            },
-          },
-        ],
-      },
-      success: true,
-    },
-  ]);
+  const [question, setQuestion] = useState();
 
   const [questionIndex, setQuestionIndex] = useState(0);
   const [showOutput, setShowOutput] = useState(false);
@@ -322,17 +48,54 @@ const CodeEditor = () => {
   });
 
   useEffect(() => {
+    // get question ids of 7 questions
     const getQuestions = async () => {
-      const response = await axios.get(
-        `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/questions/test`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
-          },
-        }
-      );
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/questions/test`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
+            },
+          }
+        );
 
-      console.log(response.data);
+        localStorage.setItem(
+          'codingquestions',
+          JSON.stringify(response.data.questions)
+        );
+        console.log(response.data.questions);
+
+        // get single question
+        getSingleQuestion();
+      } catch (error) {
+        console.log(error);
+        navigate('/editor/login');
+        localStorage.clear();
+      }
+    };
+
+    // get signle question by id
+    const getSingleQuestion = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/questions/${
+            JSON.parse(localStorage.getItem('codingquestions'))[questionIndex]
+          }`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
+            },
+          }
+        );
+
+        console.log(response.data.question);
+        setQuestion(response.data.question);
+        setCode(response.data.question.default_codes[language]);
+        console.log(response.data.question.default_codes[language]);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     if (!localStorage.getItem('codetoken')) {
@@ -342,40 +105,61 @@ const CodeEditor = () => {
     }
   }, []);
 
+  // get signle question by id (for button click)
+  const getSingleQuestion = async (index) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/questions/${
+          JSON.parse(localStorage.getItem('codingquestions'))[index]
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
+          },
+        }
+      );
+
+      console.log(response.data.question);
+      setQuestion(response.data.question);
+      setCode(response.data.question.default_codes[language]);
+      console.log(response.data.question.default_codes[language]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleQuestionChange = (index) => {
+    setQuestionIndex(index);
+    getSingleQuestion(index);
+  };
+
   const onLanguageChange = (e) => {
     setLanguage(e.target.value);
   };
 
   // question navigation
   const nextQuestion = () => {
-    if (questionIndex !== questions.length - 1) {
-      setCode(questions[questionIndex].question.current_code);
+    if (
+      questionIndex !==
+      JSON.parse(localStorage.getItem('codingquestions')).length - 1
+    ) {
+      getSingleQuestion(questionIndex + 1);
       setQuestionIndex((questionIndex) => questionIndex + 1);
       setShowOutput(false);
     }
   };
   const prevQuestion = () => {
     if (questionIndex !== 0) {
-      setCode(questions[questionIndex].question.current_code);
+      getSingleQuestion(questionIndex - 1);
       setQuestionIndex((questionIndex) => questionIndex - 1);
       setShowOutput(false);
     }
   };
 
-  // get all questions
-  const getQuestions = async () => {
-    setCode(questions[questionIndex]?.question?.current_code);
-  };
-
   // handle editor change event
   function handleCodeChange(value) {
     setCode(value);
-    // console.log(value);
   }
-
-  useEffect(() => {
-    getQuestions();
-  }, []);
 
   // helper functions
   const handleRun = async () => {
@@ -406,79 +190,86 @@ const CodeEditor = () => {
   const handleSync = async () => {};
 
   return (
-    <div className={styles.editorPage}>
-      <div className={styles.header}>
+    <div>
+      <div className={styles.editorHeader}>
         <img
           src="/ignite-logo.png"
           alt="ignite-logo"
-          style={{ width: '55px' }}
+          style={{ width: '100px' }}
         />
+        <h2 style={{ color: '#fdfdfd', fontWeight: '500' }}>Mpulse Ignite</h2>
       </div>
-      <div className={styles.container}>
-        <div className={`${styles.left} ${styles.leftHeader}`}>
-          <div className={styles.buttons}>
-            <button className={styles.navButton} onClick={prevQuestion}>
-              <FaAngleLeft />
-            </button>
-
-            {questions?.map((question, index) => (
-              <button
-                className={index === questionIndex && styles.activeQuestion}
-                onClick={() => setQuestionIndex(index)}
-                key={index}
-              >
-                Q. {index + 1}
+      <div className={styles.editorPage}>
+        <div className={styles.container}>
+          <div className={`${styles.left} ${styles.leftHeader}`}>
+            <div className={styles.buttons}>
+              <button className={styles.navButton} onClick={prevQuestion}>
+                <FaAngleLeft />
               </button>
-            ))}
 
-            <button className={styles.navButton} onClick={nextQuestion}>
-              <FaAngleRight />
-            </button>
+              {JSON.parse(localStorage.getItem('codingquestions'))?.map(
+                (question, index) => (
+                  <button
+                    className={index === questionIndex && styles.activeQuestion}
+                    onClick={() => handleQuestionChange(index)}
+                    key={index}
+                  >
+                    Q. {index + 1}
+                  </button>
+                )
+              )}
+
+              <button className={styles.navButton} onClick={nextQuestion}>
+                <FaAngleRight />
+              </button>
+            </div>
+          </div>
+          <div className={styles.right}>
+            <div className={styles.options}>
+              <select onChange={onLanguageChange}>
+                {langs.map((lang) => (
+                  <option key={lang}>{lang}</option>
+                ))}
+              </select>
+            </div>
+            <button>Sync</button>
+
+            <div className={styles.run}>
+              <button onClick={handleRun}>Run</button>
+              <button className={styles.submit} onClick={handleSubmit}>
+                Submit
+              </button>
+            </div>
           </div>
         </div>
-        <div className={styles.right}>
-          <div className={styles.options}>
-            <select onChange={onLanguageChange}>
-              {langs.map((lang) => (
-                <option key={lang}>{lang}</option>
-              ))}
-            </select>
-          </div>
-          <button>Sync</button>
+        <div className={`${styles.container} ${styles.rightContainer}`}>
+          <Question
+            // questionIndex={questionIndex}
+            question={question}
+          />
 
-          <div className={styles.run}>
-            <button onClick={handleRun}>Run</button>
-            <button className={styles.submit} onClick={handleSubmit}>
-              Submit
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className={`${styles.container} ${styles.rightContainer}`}>
-        {/* <Question
-          questionIndex={questionIndex}
-          question={questions[questionIndex].question}
-        /> */}
-
-        <div className={styles.right}>
-          {/* <Editor
-            language={language}
-            code={questions[questionIndex].question.current_code}
-            handleCodeChange={handleCodeChange}
-          /> */}
-
-          <div className={` ${showOutput ? styles.output : styles.hideOutput}`}>
-            <AiFillCloseCircle
-              className={styles.close}
-              onClick={() => setShowOutput(false)}
+          <div className={styles.right}>
+            <Editor
+              language={language}
+              code={code}
+              handleCodeChange={handleCodeChange}
             />
-            <p
-              className={
-                output?.accepted ? styles.accepted : styles.notAccepted
-              }
+
+            <div
+              className={` ${showOutput ? styles.output : styles.hideOutput}`}
             >
-              {output.message}
-            </p>
+              <AiFillCloseCircle
+                className={styles.close}
+                onClick={() => setShowOutput(false)}
+              />
+              <p
+                className={
+                  output?.accepted ? styles.accepted : styles.notAccepted
+                }
+              >
+                {output.message}
+              </p>
+            </div>
           </div>
         </div>
       </div>

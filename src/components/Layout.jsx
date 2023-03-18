@@ -23,7 +23,9 @@ const Layout = ({ children }) => {
         !pathname.includes('quiz') &&
         !pathname.includes('admin') &&
         !pathname.includes('editor') && <Footer />}
-      {pathname.includes('quiz') && <BrandingFooter />}
+      {(pathname.includes('quiz') || pathname.includes('editor')) && (
+        <BrandingFooter />
+      )}
     </>
   );
 };
