@@ -7,9 +7,10 @@ import { confirmAlert } from 'react-confirm-alert';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { toast } from 'react-toastify';
 import styles from '../../styles/pages/Editor.module.css';
 
-const langs = ['cpp', 'c', 'python'];
+const langs = ['cpp'];
 
 const CodeEditor = () => {
   const navigate = useNavigate();
@@ -23,29 +24,32 @@ const CodeEditor = () => {
 
   const [questionIndex, setQuestionIndex] = useState(0);
   const [showOutput, setShowOutput] = useState(false);
-  const [output, setOutput] = useState({
-    accepted: false,
-    message:
-      'Error: Traceback (most recent call last):\n  File "/Users/kaushalphulgirkar/Documents/Projects/StudyBro-backend/app/api/codebro/python_helper.py", line 66, in handle_python_submission\n    result = eval(f"solution.{question[\'function_name\']}(**{args})")\n  File "<string>", line 1, in <module>\nNameError: name \'solution\' is not defined\n',
-    test_case: {
-      args: [
-        {
-          data_type: 'list',
-          key: 'nums',
-          value: [2, 7, 11, 15],
-        },
-        {
-          data_type: 'int',
-          key: 'target',
-          value: 9,
-        },
-      ],
-      expected: {
-        data_type: 'list',
-        value: [0, 1],
-      },
-    },
-  });
+  const [output, setOutput] = useState();
+
+  const notifyError = (message) => {
+    toast.error(message, {
+      position: 'top-center',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+    });
+  };
+  const notifySuccess = (message) => {
+    toast.success(message, {
+      position: 'top-right',
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+    });
+  };
 
   useEffect(() => {
     // get question ids of 7 questions
@@ -56,6 +60,7 @@ const CodeEditor = () => {
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
+              'Access-Control-Allow-Origin': '*',
             },
           }
         );
@@ -163,8 +168,35 @@ const CodeEditor = () => {
 
   // helper functions
   const handleRun = async () => {
+    console.log('first');
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/submissions/accept`,
+        {
+          typed_code: code,
+          language: language,
+          question_id: JSON.parse(localStorage.getItem('codingquestions'))[
+            questionIndex
+          ],
+          submission_type: 'run',
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
+
+      console.log(response.data);
+      setOutput(response.data);
+    } catch (error) {
+      console.log(error.response.data);
+      setOutput(error.response.data);
+    }
+
     setShowOutput(true);
-    console.log(code);
   };
 
   const handleSubmit = async () => {
@@ -176,18 +208,73 @@ const CodeEditor = () => {
       buttons: [
         {
           label: 'Yes',
-          onClick: () => setShowOutput(true),
+          onClick: async () => {
+            try {
+              const response = await axios.post(
+                `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/submissions/accept`,
+                {
+                  typed_code: code,
+                  language: language,
+                  question_id: JSON.parse(
+                    localStorage.getItem('codingquestions')
+                  )[questionIndex],
+                  submission_type: 'submit',
+                },
+                {
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem(
+                      'codetoken'
+                    )}`,
+                    'Access-Control-Allow-Origin': '*',
+                  },
+                }
+              );
+
+              console.log(response.data);
+              notifySuccess('Code submitted successfully');
+            } catch (error) {
+              console.log(error.response.data);
+              notifySuccess('Code submitted successfully');
+            }
+          },
         },
         {
           label: 'No',
-          // onClick: () => alert('Click No'),
         },
       ],
     });
     //
   };
 
-  const handleSync = async () => {};
+  const handleSync = async () => {
+    console.log('sync');
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/submissions/accept`,
+        {
+          typed_code: code,
+          language: language,
+          question_id: JSON.parse(localStorage.getItem('codingquestions'))[
+            questionIndex
+          ],
+          submission_type: 'sync',
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
+
+      console.log(response.data);
+      notifySuccess(response.data.message);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
 
   return (
     <div>
@@ -197,7 +284,7 @@ const CodeEditor = () => {
           alt="ignite-logo"
           style={{ width: '100px' }}
         />
-        <h2 style={{ color: '#fdfdfd', fontWeight: '500' }}>Mpulse Ignite</h2>
+        <h2>28:08</h2>
       </div>
       <div className={styles.editorPage}>
         <div className={styles.container}>
@@ -211,7 +298,10 @@ const CodeEditor = () => {
                 (question, index) => (
                   <button
                     className={index === questionIndex && styles.activeQuestion}
-                    onClick={() => handleQuestionChange(index)}
+                    onClick={() => {
+                      handleQuestionChange(index);
+                      setShowOutput(false);
+                    }}
                     key={index}
                   >
                     Q. {index + 1}
@@ -232,7 +322,7 @@ const CodeEditor = () => {
                 ))}
               </select>
             </div>
-            <button>Sync</button>
+            <button onClick={handleSync}>Sync</button>
 
             <div className={styles.run}>
               <button onClick={handleRun}>Run</button>
@@ -264,10 +354,10 @@ const CodeEditor = () => {
               />
               <p
                 className={
-                  output?.accepted ? styles.accepted : styles.notAccepted
+                  output?.success ? styles.accepted : styles.notAccepted
                 }
               >
-                {output.message}
+                {output?.message}
               </p>
             </div>
           </div>

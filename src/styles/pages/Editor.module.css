@@ -13,6 +13,13 @@
   justify-content: space-between;
 }
 
+.editorHeader h2 {
+  background: #ff4500;
+  border-radius: 5px;
+  color: #fdfdfd;
+  padding: 5px 8px;
+}
+
 .editorPage .container {
   display: flex;
 }
@@ -200,13 +207,13 @@
 }
 
 .editorPage .accepted {
-  color: #008000;
+  color: #41f541;
   padding: 25px;
   font-weight: 500;
 }
 
 .editorPage .notAccepted {
-  color: #c43400;
+  color: #ff581b;
   padding: 25px;
   font-weight: 500;
 }

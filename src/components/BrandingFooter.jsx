@@ -9,7 +9,7 @@ const BrandingFooter = () => {
     <footer
       className={styles.footerSponsors}
       style={{
-        background: pathname.includes('editor') ? '#000000' : '#2b2141',
+        background: pathname.includes('editor/exam') ? '#000000' : '#2b2141',
       }}
     >
       <p>Technical Sponsors</p>
