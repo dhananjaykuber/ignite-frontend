@@ -396,50 +396,6 @@ const Register = () => {
           </div>
         )}
 
-        {data.event_name === 'Hackathon' && (
-          <div className={styles.row1}>
-            <div className={styles.floatinglabelgroup}>
-              <input
-                type="text"
-                id="paymentid"
-                className={styles.formcontrol}
-                required
-                value={data.payment_id}
-                onChange={(e) =>
-                  setData({ ...data, payment_id: e.target.value })
-                }
-              />
-              <label className={styles.floatinglabel} htmlFor="paymentid">
-                Payment ID <span>*</span>
-              </label>
-            </div>
-          </div>
-        )}
-        {data.event_name === 'Hackathon' && (
-          <>
-            <div className={styles.floatinglabelgroup}>
-              <input
-                type="file"
-                id="paymentscreenshot"
-                onChange={(e) =>
-                  setData({ ...data, payment_screenshot: e.target.files[0] })
-                }
-              />
-              <label
-                className={styles.floatinglabel}
-                htmlFor="paymentscreenshot"
-              >
-                Payment screenshot <span>*</span>
-              </label>
-            </div>
-            <p>
-              Please pay Rs. {fees} for {data.event_name} on below QR
-            </p>
-            <div className={styles.qr}>
-              <img src={qrs[fees]} alt={`${fees}-qr`} />
-            </div>
-          </>
-        )}
         <button>{loading ? 'Submitting...' : 'Submit'}</button>
       </form>
     </div>
