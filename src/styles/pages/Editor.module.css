@@ -49,6 +49,7 @@
   margin: 0px 5px;
   border-radius: 5px;
   cursor: pointer;
+  width: fit-content;
 }
 
 .leftHeader .navButton {
@@ -89,6 +90,7 @@
   color: #fdfdfd;
   cursor: pointer;
   transition: 0.3s all ease-in-out;
+  width: fit-content;
 }
 
 .run button:hover {
@@ -109,10 +111,8 @@
 .editorPage .right {
   width: 60%;
   display: flex;
-}
-
-.editorPage .options {
-  margin-bottom: 10px;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .right button {
@@ -128,6 +128,7 @@
   margin-left: 10px;
   cursor: pointer;
   transition: 0.3s all ease-in-out;
+  width: fit-content;
 }
 
 .right button:hover {
@@ -158,6 +159,7 @@
   color: #fdfdfd;
   cursor: pointer;
   transition: 0.3s all ease-in-out;
+  width: fit-content;
 }
 
 .left .buttons .navButton {

@@ -29,7 +29,7 @@ const CodeEditorSignup = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_FLASK_BACKEND}/api/auth/login`,
+        `${process.env.REACT_APP_FLASK_STUDYBRO_BACKEND}/api/auth/login`,
         {
           qr_id: parseInt(registrationid),
           contact: contact,

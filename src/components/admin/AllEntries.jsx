@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from '../../styles/pages/Admin.module.css';
 import { useSelector } from 'react-redux';
@@ -17,6 +17,10 @@ const AllEntries = () => {
   const [state, setState] = useState('Bug Bounty');
 
   const [entries, setEntries] = useState([]);
+
+  useEffect(() => {
+    handleLoad('Bug Bounty');
+  }, []);
 
   const onEventChange = (e) => {
     setState(e.target.value);

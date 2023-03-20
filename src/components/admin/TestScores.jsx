@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import convert from 'convert-seconds';
 import styles from '../../styles/pages/Admin.module.css';
@@ -12,6 +12,10 @@ const TestScores = () => {
   const [state, setState] = useState('bugbounty');
 
   const [entries, setEntries] = useState([]);
+
+  useEffect(() => {
+    handleLoad('bugbounty');
+  }, []);
 
   const onEventChange = (e) => {
     setState(e.target.value);

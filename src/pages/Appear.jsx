@@ -8,7 +8,7 @@ const Appear = () => {
   const navigate = useNavigate();
 
   const notifyError = (message) => {
-    toast.error(message, {
+    toast.info(message, {
       position: 'top-center',
       autoClose: 3000,
       hideProgressBar: false,

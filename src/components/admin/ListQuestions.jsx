@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../../styles/pages/Admin.module.css';
@@ -14,6 +14,10 @@ const ListQuestions = () => {
   const [state, setState] = useState('bugbounty');
 
   const [entries, setEntries] = useState([]);
+
+  useEffect(() => {
+    getQuestions('bugbounty');
+  }, []);
 
   const onEventChange = (e) => {
     setState(e.target.value);

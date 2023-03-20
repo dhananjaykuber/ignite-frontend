@@ -19,17 +19,22 @@ const CodeEditor = () => {
 
   const [language, setLanguage] = useState('cpp');
 
+  const [runLoading, setRunLoading] = useState(false);
+  const [syncLoading, setSyncLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+
   // code editor data
   const [question, setQuestion] = useState();
 
   const [questionIndex, setQuestionIndex] = useState(0);
   const [showOutput, setShowOutput] = useState(false);
   const [output, setOutput] = useState();
+  const [submitted, setSubmitted] = useState(false);
 
   const notifyError = (message) => {
-    toast.error(message, {
+    toast.warn(message, {
       position: 'top-center',
-      autoClose: 3000,
+      autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -52,11 +57,43 @@ const CodeEditor = () => {
   };
 
   useEffect(() => {
+    // syncing
+    const intervalId = setInterval(async () => {
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_FLASK_STUDYBRO_BACKEND}/api/codebro/submissions/accept`,
+          {
+            typed_code: code,
+            language: language,
+            question_id: JSON.parse(localStorage.getItem('codingquestions'))[
+              questionIndex
+            ],
+            submission_type: 'sync',
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
+            },
+          }
+        );
+
+        console.log(response.data);
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    }, 10000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  useEffect(() => {
     // get question ids of 7 questions
     const getQuestions = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/questions/test`,
+          `${process.env.REACT_APP_FLASK_STUDYBRO_BACKEND}/api/codebro/questions/test`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
@@ -69,7 +106,7 @@ const CodeEditor = () => {
           'codingquestions',
           JSON.stringify(response.data.questions)
         );
-        console.log(response.data.questions);
+        // console.log(response.data.questions);
 
         // get single question
         getSingleQuestion();
@@ -84,7 +121,9 @@ const CodeEditor = () => {
     const getSingleQuestion = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/questions/${
+          `${
+            process.env.REACT_APP_FLASK_STUDYBRO_BACKEND
+          }/api/codebro/questions/${
             JSON.parse(localStorage.getItem('codingquestions'))[questionIndex]
           }`,
           {
@@ -94,10 +133,24 @@ const CodeEditor = () => {
           }
         );
 
+        console.log('submitted: ', response.data.question.submitted);
+
+        setSubmitted(response.data.question.submitted);
+
+        if (response.data.question.submitted) {
+          notifyError('You have already submitted the code');
+        }
+
         console.log(response.data.question);
         setQuestion(response.data.question);
-        setCode(response.data.question.default_codes[language]);
-        console.log(response.data.question.default_codes[language]);
+
+        if (response.data.question.current_code) {
+          setCode(response.data.question.current_code);
+          console.log('current code');
+        } else {
+          setCode(response.data.question.default_codes[language]);
+          console.log('default code');
+        }
       } catch (error) {
         console.log(error);
       }
@@ -114,7 +167,9 @@ const CodeEditor = () => {
   const getSingleQuestion = async (index) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/questions/${
+        `${
+          process.env.REACT_APP_FLASK_STUDYBRO_BACKEND
+        }/api/codebro/questions/${
           JSON.parse(localStorage.getItem('codingquestions'))[index]
         }`,
         {
@@ -124,10 +179,24 @@ const CodeEditor = () => {
         }
       );
 
+      console.log('submitted: ', response.data.question.submitted);
+
+      if (response.data.question.submitted) {
+        notifyError('You have already submitted the code');
+      }
+
+      setSubmitted(response.data.question.submitted);
+
       console.log(response.data.question);
       setQuestion(response.data.question);
-      setCode(response.data.question.default_codes[language]);
-      console.log(response.data.question.default_codes[language]);
+
+      if (response.data.question.current_code) {
+        setCode(response.data.question.current_code);
+        console.log('current code');
+      } else {
+        setCode(response.data.question.default_codes[language]);
+        console.log('default code');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -136,6 +205,7 @@ const CodeEditor = () => {
   const handleQuestionChange = (index) => {
     setQuestionIndex(index);
     getSingleQuestion(index);
+    setSubmitted(false);
   };
 
   const onLanguageChange = (e) => {
@@ -151,6 +221,7 @@ const CodeEditor = () => {
       getSingleQuestion(questionIndex + 1);
       setQuestionIndex((questionIndex) => questionIndex + 1);
       setShowOutput(false);
+      setSubmitted(false);
     }
   };
   const prevQuestion = () => {
@@ -158,6 +229,7 @@ const CodeEditor = () => {
       getSingleQuestion(questionIndex - 1);
       setQuestionIndex((questionIndex) => questionIndex - 1);
       setShowOutput(false);
+      setSubmitted(false);
     }
   };
 
@@ -168,10 +240,10 @@ const CodeEditor = () => {
 
   // helper functions
   const handleRun = async () => {
-    console.log('first');
+    setRunLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/submissions/accept`,
+        `${process.env.REACT_APP_FLASK_STUDYBRO_BACKEND}/api/codebro/submissions/accept`,
         {
           typed_code: code,
           language: language,
@@ -194,12 +266,15 @@ const CodeEditor = () => {
     } catch (error) {
       console.log(error.response.data);
       setOutput(error.response.data);
+    } finally {
+      setRunLoading(false);
     }
 
     setShowOutput(true);
   };
 
   const handleSubmit = async () => {
+    setSubmitLoading(true);
     // alert popup
     confirmAlert({
       title: 'Confirm to submit',
@@ -211,7 +286,7 @@ const CodeEditor = () => {
           onClick: async () => {
             try {
               const response = await axios.post(
-                `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/submissions/accept`,
+                `${process.env.REACT_APP_FLASK_STUDYBRO_BACKEND}/api/codebro/submissions/accept`,
                 {
                   typed_code: code,
                   language: language,
@@ -231,16 +306,22 @@ const CodeEditor = () => {
                 }
               );
 
-              console.log(response.data);
-              notifySuccess('Code submitted successfully');
+              setSubmitted(true);
+              console.log(response.data.message);
+              notifySuccess(response.data.message);
             } catch (error) {
-              console.log(error.response.data);
+              console.log(error);
               notifySuccess('Code submitted successfully');
+            } finally {
+              setSubmitLoading(false);
             }
           },
         },
         {
           label: 'No',
+          onClick: () => {
+            setSubmitLoading(false);
+          },
         },
       ],
     });
@@ -248,10 +329,10 @@ const CodeEditor = () => {
   };
 
   const handleSync = async () => {
-    console.log('sync');
+    setSyncLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_FLASK_BACKEND}/api/codebro/submissions/accept`,
+        `${process.env.REACT_APP_FLASK_STUDYBRO_BACKEND}/api/codebro/submissions/accept`,
         {
           typed_code: code,
           language: language,
@@ -264,7 +345,6 @@ const CodeEditor = () => {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
-            'Access-Control-Allow-Origin': '*',
           },
         }
       );
@@ -273,18 +353,16 @@ const CodeEditor = () => {
       notifySuccess(response.data.message);
     } catch (error) {
       console.log(error.response.data);
+    } finally {
+      setSyncLoading(false);
     }
   };
 
   return (
     <div>
       <div className={styles.editorHeader}>
-        <img
-          src="/ignite-logo.png"
-          alt="ignite-logo"
-          style={{ width: '100px' }}
-        />
-        <h2>28:08</h2>
+        <img src="/codebro.png" alt="ignite-logo" style={{ width: '200px' }} />
+        {/* <h2>28:08</h2> */}
       </div>
       <div className={styles.editorPage}>
         <div className={styles.container}>
@@ -322,12 +400,20 @@ const CodeEditor = () => {
                 ))}
               </select>
             </div>
-            <button onClick={handleSync}>Sync</button>
+            <button onClick={handleSync} disabled={syncLoading || submitted}>
+              {syncLoading ? 'Syncing' : 'Sync'}
+            </button>
 
             <div className={styles.run}>
-              <button onClick={handleRun}>Run</button>
-              <button className={styles.submit} onClick={handleSubmit}>
-                Submit
+              <button onClick={handleRun} disabled={runLoading || submitted}>
+                {runLoading ? 'Running' : 'Run'}
+              </button>
+              <button
+                className={styles.submit}
+                onClick={handleSubmit}
+                disabled={submitLoading || submitted}
+              >
+                {submitLoading ? 'Submiting' : 'Submit'}
               </button>
             </div>
           </div>
@@ -343,6 +429,7 @@ const CodeEditor = () => {
               language={language}
               code={code}
               handleCodeChange={handleCodeChange}
+              disabled={submitted}
             />
 
             <div

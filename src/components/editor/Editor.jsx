@@ -2,7 +2,7 @@ import React from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import styles from '../../styles/pages/Editor.module.css';
 
-const Editor = ({ language, code, handleCodeChange }) => {
+const Editor = ({ language, code, handleCodeChange, disabled }) => {
   return (
     <MonacoEditor
       language={language}
@@ -14,6 +14,7 @@ const Editor = ({ language, code, handleCodeChange }) => {
         theme: 'vs-dark',
         fontSize: 16,
         fontWeight: 500,
+        readOnly: disabled,
       }}
       className={styles.editor}
     />
