@@ -29,6 +29,7 @@ import CodeEditor from './pages/editor/CodeEditor';
 import { useDispatch } from 'react-redux';
 import { getAdminInformation } from './redux/adminSlice';
 import CodeEditorSignup from './pages/editor/CodeEditorSignup';
+import Image from './pages/Image';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/appear" element={<Appear />} />
           <Route path="/clear" element={<ClearStorage />} />
+          <Route path="/rule" element={<Image />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ToastContainer />

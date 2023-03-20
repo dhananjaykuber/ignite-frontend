@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styles from '../styles/pages/Events.module.css';
 
@@ -109,6 +109,12 @@ const Appear = () => {
                 Round - II
               </h4>
               <button onClick={bugBounty2}>Start Test</button>
+              <Link
+                to="/rule"
+                style={{ display: 'block', color: '#fff', marginTop: 5 }}
+              >
+                Read Rules
+              </Link>
             </div>
           </div>
         </div>

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setAdmin } from '../../redux/adminSlice';
 import AllEntries from '../../components/admin/AllEntries';
+import CodeBro from '../../components/admin/CodeBro';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -76,6 +77,12 @@ const Dashboard = () => {
           Calculate scores
         </button>
         <button
+          onClick={() => setTab('code bro')}
+          style={{ background: tab === 'code bro' && '#0cd1eb' }}
+        >
+          Code Bro
+        </button>
+        <button
           onClick={() => setTab('all entries')}
           style={{ background: tab === 'all entries' && '#0cd1eb' }}
         >
@@ -109,6 +116,8 @@ const Dashboard = () => {
         <CalculateScore />
       ) : tab === 'all entries' ? (
         <AllEntries />
+      ) : tab === 'code bro' ? (
+        <CodeBro />
       ) : (
         <AddCategory />
       )}

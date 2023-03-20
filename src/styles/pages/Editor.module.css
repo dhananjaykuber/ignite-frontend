@@ -219,3 +219,12 @@
   padding: 25px;
   font-weight: 500;
 }
+
+.editorPage h5 {
+  color: #000000;
+  background: #fff200;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-weight: 500;
+  font-size: 15px;
+}

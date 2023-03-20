@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { toast } from 'react-toastify';
+import convert from 'convert-seconds';
 import styles from '../../styles/pages/Editor.module.css';
 
 const langs = ['cpp'];
@@ -26,10 +27,14 @@ const CodeEditor = () => {
   // code editor data
   const [question, setQuestion] = useState();
 
+  let time = 0;
+
   const [questionIndex, setQuestionIndex] = useState(0);
   const [showOutput, setShowOutput] = useState(false);
   const [output, setOutput] = useState();
   const [submitted, setSubmitted] = useState(false);
+
+  const [curentTime, setCurrentTime] = useState(0);
 
   const notifyError = (message) => {
     toast.warn(message, {
@@ -82,6 +87,21 @@ const CodeEditor = () => {
       } catch (error) {
         console.log(error.response.data);
       }
+
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_FLASK_STUDYBRO_BACKEND}/api/auth/increase_time`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
+            },
+          }
+        );
+
+        console.log('time icreased: ', response.data);
+      } catch (error) {
+        console.log(error);
+      }
     }, 10000);
     return () => {
       clearInterval(intervalId);
@@ -89,6 +109,85 @@ const CodeEditor = () => {
   }, []);
 
   useEffect(() => {
+    // get time of user
+    const getTime = async () => {
+      console.log('localstorage time is: ', localStorage.getItem('codetime'));
+
+      if (localStorage.getItem('codetime') !== null) {
+        time = parseInt(localStorage.getItem('codetime'));
+        setCurrentTime(parseInt(localStorage.getItem('codetime')));
+        localStorage.setItem(
+          'codetime',
+          parseInt(localStorage.getItem('codetime'))
+        );
+
+        const intervalId = setInterval(() => {
+          setCurrentTime((prev) => prev + 1);
+
+          time += 1;
+
+          if (time >= 2400 * 2) {
+            handleEndExam(true);
+            navigate('/quiz/Bug Bounty Round II/submit');
+            window.location.reload();
+            return;
+          }
+
+          localStorage.setItem('codetime', time);
+        }, 1000);
+
+        return;
+        return () => {
+          clearInterval(intervalId);
+        };
+      }
+
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_FLASK_STUDYBRO_BACKEND}/api/auth/get_time`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
+            },
+          }
+        );
+
+        console.log('time is: ', response.data.time);
+
+        if (response.data.time > 0) {
+          time = response.data.time * 2;
+          setCurrentTime(response.data.time * 2);
+          localStorage.setItem('codetime', response.data.time * 2);
+        } else {
+          time = response.data.time;
+          setCurrentTime(response.data.time);
+          localStorage.setItem('codetime', response.data.time);
+        }
+
+        const intervalId = setInterval(() => {
+          setCurrentTime((prev) => prev + 1);
+
+          time += 1;
+
+          if (time >= 2400 * 2) {
+            handleEndExam(true);
+            navigate('/quiz/Bug Bounty Round II/submit');
+            window.location.reload();
+
+            return;
+          }
+
+          localStorage.setItem('codetime', time);
+        }, 1000);
+
+        return () => {
+          clearInterval(intervalId);
+        };
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     // get question ids of 7 questions
     const getQuestions = async () => {
       try {
@@ -144,7 +243,7 @@ const CodeEditor = () => {
         console.log(response.data.question);
         setQuestion(response.data.question);
 
-        if (response.data.question.current_code) {
+        if (response.data.question.submitted) {
           setCode(response.data.question.current_code);
           console.log('current code');
         } else {
@@ -159,6 +258,7 @@ const CodeEditor = () => {
     if (!localStorage.getItem('codetoken')) {
       navigate('/editor/login');
     } else {
+      getTime();
       getQuestions();
     }
   }, []);
@@ -181,6 +281,8 @@ const CodeEditor = () => {
 
       console.log('submitted: ', response.data.question.submitted);
 
+      console.log(response.data.question);
+
       if (response.data.question.submitted) {
         notifyError('You have already submitted the code');
       }
@@ -190,7 +292,7 @@ const CodeEditor = () => {
       console.log(response.data.question);
       setQuestion(response.data.question);
 
-      if (response.data.question.current_code) {
+      if (response.data.question.submitted) {
         setCode(response.data.question.current_code);
         console.log('current code');
       } else {
@@ -345,6 +447,7 @@ const CodeEditor = () => {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('codetoken')}`,
+            'Access-Control-Allow-Origin': '*',
           },
         }
       );
@@ -358,11 +461,47 @@ const CodeEditor = () => {
     }
   };
 
+  const handleEndExam = async (submit) => {
+    // clear localstorage of exam
+    if (submit) {
+      // write here to end exam
+      console.log('ending your exam');
+      localStorage.clear();
+      return;
+    }
+
+    // alert popup
+    confirmAlert({
+      title: 'Confirm to end exam',
+      message:
+        'Are you sure to do this? After ending exam, you will not be able attempt it again.',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: async () => {
+            alert(curentTime / 2);
+          },
+        },
+        {
+          label: 'No',
+          onClick: () => {
+            alert('No');
+          },
+        },
+      ],
+    });
+  };
+
   return (
     <div>
       <div className={styles.editorHeader}>
         <img src="/codebro.png" alt="ignite-logo" style={{ width: '200px' }} />
-        {/* <h2>28:08</h2> */}
+        <h2>
+          {convert(2400 - curentTime / 2).minutes.toString().length === 1 && 0}
+          {convert(2400 - curentTime / 2).minutes}:
+          {convert(2400 - curentTime / 2).seconds.toString().length === 1 && 0}
+          {convert(2400 - curentTime / 2).seconds}
+        </h2>
       </div>
       <div className={styles.editorPage}>
         <div className={styles.container}>
@@ -390,32 +529,50 @@ const CodeEditor = () => {
               <button className={styles.navButton} onClick={nextQuestion}>
                 <FaAngleRight />
               </button>
+
+              <button
+                style={{ background: 'red' }}
+                onClick={() => handleEndExam(false)}
+              >
+                End Exam
+              </button>
             </div>
           </div>
           <div className={styles.right}>
-            <div className={styles.options}>
-              <select onChange={onLanguageChange}>
-                {langs.map((lang) => (
-                  <option key={lang}>{lang}</option>
-                ))}
-              </select>
-            </div>
-            <button onClick={handleSync} disabled={syncLoading || submitted}>
-              {syncLoading ? 'Syncing' : 'Sync'}
-            </button>
+            {!submitted && (
+              <>
+                <div className={styles.options}>
+                  <select onChange={onLanguageChange}>
+                    {langs.map((lang) => (
+                      <option key={lang}>{lang}</option>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  onClick={handleSync}
+                  disabled={syncLoading || submitted}
+                >
+                  {syncLoading ? 'Syncing' : 'Sync'}
+                </button>
 
-            <div className={styles.run}>
-              <button onClick={handleRun} disabled={runLoading || submitted}>
-                {runLoading ? 'Running' : 'Run'}
-              </button>
-              <button
-                className={styles.submit}
-                onClick={handleSubmit}
-                disabled={submitLoading || submitted}
-              >
-                {submitLoading ? 'Submiting' : 'Submit'}
-              </button>
-            </div>
+                <div className={styles.run}>
+                  <button
+                    onClick={handleRun}
+                    disabled={runLoading || submitted}
+                  >
+                    {runLoading ? 'Running' : 'Run'}
+                  </button>
+                  <button
+                    className={styles.submit}
+                    onClick={handleSubmit}
+                    disabled={submitLoading || submitted}
+                  >
+                    {submitLoading ? 'Submiting' : 'Submit'}
+                  </button>
+                </div>
+              </>
+            )}
+            {submitted && <h5>You have already submitted the code</h5>}
           </div>
         </div>
         <div className={`${styles.container} ${styles.rightContainer}`}>
@@ -429,7 +586,7 @@ const CodeEditor = () => {
               language={language}
               code={code}
               handleCodeChange={handleCodeChange}
-              disabled={submitted}
+              disabled={submitted || submitLoading || syncLoading || runLoading}
             />
 
             <div

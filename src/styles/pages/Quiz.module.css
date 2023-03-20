@@ -184,10 +184,11 @@
 .quizpage .progress {
   display: flex;
   margin-top: 0px;
-  width: 700px;
+  width: 650px;
   margin-bottom: 50px;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .progress button,
@@ -233,4 +234,13 @@
 
 .examRules .complete {
   background: #0cd1eb92;
+}
+
+.unselectable {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #cc0000;
 }

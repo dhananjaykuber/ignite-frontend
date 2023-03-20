@@ -48,6 +48,9 @@ const Quiz = () => {
 
   // useEffect
   useEffect(() => {
+    // disable right click and copy
+    document.addEventListener('contextmenu', (event) => event.preventDefault());
+
     if (!data) {
       navigate('/');
     }
@@ -336,7 +339,7 @@ const Quiz = () => {
   };
 
   return (
-    <div className={styles.quizpage}>
+    <div className={`${styles.quizpage} ${styles.unselectable}`}>
       <img
         src="/ignite-logo.png"
         alt="ignite-logo"
@@ -410,7 +413,7 @@ const Quiz = () => {
         </button>
       </div>
 
-      <marquee
+      <b
         width="700px"
         direction="right"
         height="100px"
@@ -418,7 +421,7 @@ const Quiz = () => {
       >
         {data?.team_lead} &nbsp;&nbsp;&nbsp; {data?.email} &nbsp;&nbsp;&nbsp;
         {data?.contact} &nbsp;&nbsp;&nbsp; {data?.category}
-      </marquee>
+      </b>
     </div>
   );
 };
