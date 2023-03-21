@@ -23,6 +23,22 @@ const ProblemStatements = () => {
           real-world problems can come together, have discussions and also share
           threads with potential investors registered on the platform itself.
         </li>
+        <li style={{ margin: '20px', fontSize: '1.5rem' }}>
+          Build a web application which will have all the textual NLP features
+          like grammar checking, paraphrasing and text-generation, text
+          summarization, sentiment analysis. You can use any online pre-trained
+          model or oprn source API for this.
+        </li>
+        <li style={{ margin: '20px', fontSize: '1.5rem' }}>
+          Social media application for college where students can share their
+          achievements and activities. Others can like, comment and share the
+          posts on their timelines.
+        </li>
+        <li style={{ margin: '20px', fontSize: '1.5rem' }}>
+          Social media application for college where students can share their
+          achievements and activities. Others can like, comment and share the
+          posts on their timelines.
+        </li>
       </ol>
     </div>
   );
