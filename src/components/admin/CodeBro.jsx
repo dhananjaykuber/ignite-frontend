@@ -30,7 +30,7 @@ const CodeBro = () => {
     setEntries([]);
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_NODE_BACKEND}/apinode/quiz/get-entries/${state}`,
+        `${process.env.REACT_APP_FLASK_STUDYBRO_BACKEND}/api/auth/get_current_users`,
         {
           headers: {
             Authorization: `Bearer ${data}`,
@@ -38,7 +38,8 @@ const CodeBro = () => {
         }
       );
 
-      setEntries(response.data);
+      console.log(response.data);
+      // setEntries(response.data);
     } catch (error) {
       console.log(error);
     }
