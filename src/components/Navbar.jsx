@@ -56,6 +56,9 @@ const Navbar = () => {
             Test <FaCode style={{ marginLeft: 10 }} />
           </Link>
         </li>
+        <li onClick={() => setOpen(false)}>
+          <Link to="/problem-statements">Hackathon</Link>
+        </li>
       </ul>
     </nav>
   );

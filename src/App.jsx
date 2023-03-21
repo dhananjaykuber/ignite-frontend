@@ -30,6 +30,7 @@ import { useDispatch } from 'react-redux';
 import { getAdminInformation } from './redux/adminSlice';
 import CodeEditorSignup from './pages/editor/CodeEditorSignup';
 import Image from './pages/Image';
+import ProblemStatements from './pages/ProblemStatements';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ const App = () => {
           <Route path="/appear" element={<Appear />} />
           <Route path="/clear" element={<ClearStorage />} />
           <Route path="/rule" element={<Image />} />
+          <Route path="/problem-statements" element={<ProblemStatements />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ToastContainer />
