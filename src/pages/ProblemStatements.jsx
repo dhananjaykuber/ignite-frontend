@@ -27,7 +27,7 @@ const ProblemStatements = () => {
           Build a web application which will have all the textual NLP features
           like grammar checking, paraphrasing and text-generation, text
           summarization, sentiment analysis. You can use any online pre-trained
-          model or oprn source API for this.
+          model or open source API for this.
         </li>
         <li style={{ margin: '20px', fontSize: '1.5rem' }}>
           Social media application for college where students can share their
@@ -35,9 +35,10 @@ const ProblemStatements = () => {
           posts on their timelines.
         </li>
         <li style={{ margin: '20px', fontSize: '1.5rem' }}>
-          Social media application for college where students can share their
-          achievements and activities. Others can like, comment and share the
-          posts on their timelines.
+          Develop a tool for real estate agents for house price evaluation based
+          on provided parameters like area, age of property. You have to develop
+          an UI to accept the parameters and give prediction based on it. You
+          can decide which features/ columns you want to use.
         </li>
       </ol>
     </div>
